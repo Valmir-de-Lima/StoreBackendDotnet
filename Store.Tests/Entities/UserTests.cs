@@ -16,7 +16,7 @@ public class UserTests
     public void ShouldReturnSuccessWhenNameIsValid(string name, string addres, string password, EType type)
     {
         var user = new User(name, new Email(addres), password, type);
-        Assert.IsTrue(user.Valid);
+        Assert.IsTrue(user.IsValid);
     }
 
     [TestMethod]
@@ -27,7 +27,7 @@ public class UserTests
     public void ShouldReturnErrorWhenNameIsInvalid(string name, string addres, string password, EType type)
     {
         var user = new User(name, new Email(addres), password, type);
-        Assert.IsTrue(user.Invalid);
+        Assert.IsFalse(user.IsValid);
     }
 }
 

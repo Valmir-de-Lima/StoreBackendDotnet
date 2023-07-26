@@ -14,7 +14,7 @@ public class EmailTests
     public void ShouldReturnSuccessWhenEmailIsValid(string adress)
     {
         var email = new Email(adress);
-        Assert.IsTrue(email.Valid);
+        Assert.IsTrue(email.IsValid);
     }
 
     [TestMethod]
@@ -25,7 +25,7 @@ public class EmailTests
     public void ShouldReturnErrorWhenEmailIsInvalid(string adress)
     {
         var email = new Email(adress);
-        Assert.IsTrue(email.Invalid);
+        Assert.IsFalse(email.IsValid);
     }
 }
 

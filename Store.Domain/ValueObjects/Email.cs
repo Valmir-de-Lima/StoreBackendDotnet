@@ -1,5 +1,5 @@
 using Domain.Shared.ValueObjects;
-using Flunt.Validations;
+using Store.Domain.ValueObjects.Contracts;
 
 namespace Store.Domain.ValueObjects;
 public class Email : ValueObject
@@ -10,9 +10,7 @@ public class Email : ValueObject
 
         //Design by contracts
         AddNotifications(
-            new Contract()
-            .Requires()
-            .IsEmail(Address, "Email.Address", "Email inválido")
+            new CreateEmailContract(this)
         );
     }
 

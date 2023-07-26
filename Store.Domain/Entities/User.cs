@@ -1,7 +1,8 @@
-using Flunt.Validations;
 using Store.Domain.Enums;
 using Store.Domain.ValueObjects;
 using Store.Shared.Entities;
+using Store.Domain.Entities.Contracts;
+
 namespace Store.Domain.Entities;
 
 public class User : Entity
@@ -15,10 +16,7 @@ public class User : Entity
         Type = type;
 
         AddNotifications(
-            new Contract()
-                .Requires()
-                .HasMinLen(Name.Replace(" ", ""), 3, "Name.FirstName", "O nome requer no minimo 3 letras")
-                .HasMaxLen(Name, 40, "Name.FirstName", "O nome deve conter no maximo 40 caracteres"),
+            new CreateUserContract(this),
             Email
         );
     }

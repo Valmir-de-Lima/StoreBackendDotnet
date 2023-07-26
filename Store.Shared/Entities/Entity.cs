@@ -2,7 +2,7 @@ using Flunt.Notifications;
 
 namespace Store.Shared.Entities;
 
-public abstract class Entity : Notifiable
+public abstract class Entity : Notifiable<Notification>
 {
     protected Entity()
     {
