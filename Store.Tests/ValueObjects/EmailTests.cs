@@ -1,7 +1,7 @@
 namespace Store.Tests.ValueObjects;
 
 [TestClass]
-[TestCategory("ValueObject")]
+[TestCategory("ValueObjects")]
 public class EmailTests
 {
     [TestMethod]

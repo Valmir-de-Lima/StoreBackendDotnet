@@ -5,8 +5,9 @@ using Store.Domain.ValueObjects;
 namespace Store.Domain.Repositories.Interfaces;
 public interface IUserRepository
 {
-    void Save(User user);
+    void Create(User user);
+    User GetByEmail(Email email);
+    IEnumerable<User> GetAll();
     void Update(User user);
-    User Get(Email email);
     void Delete(User user);
 }

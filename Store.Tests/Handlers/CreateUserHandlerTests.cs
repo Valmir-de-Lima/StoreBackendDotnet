@@ -1,15 +1,21 @@
-namespace Store.Tests.Commands;
+using Store.Tests.Repositories;
+
+namespace Store.Tests.Handlers;
 
 [TestClass]
-[TestCategory("Commands")]
-public class UserCommandTests
+[TestCategory("Handlers")]
+public class CreateUserHandlersTests
 {
+    private readonly CreateUserHandler _handler = new CreateUserHandler(new MockUserRepository());
+
+    private CommandResult _result = new(false, "");
+
     [TestMethod]
     [DataTestMethod]
     [DataRow("batman", "batman@wayne.com", "123456", EType.Manager)]
     [DataRow("robin", "robin@wayne.com", "123456", EType.Employee)]
     [DataRow("superman", "superman@justiceleague.com", "123456", EType.Customer)]
-    public void ShouldReturnSuccessWhenNameIsValid(string name, string addres, string password, EType type)
+    public void ShouldReturnSuccessWhenCommandIsValid(string name, string addres, string password, EType type)
     {
         var command = new CreateUserCommand();
         command.Name = name;
@@ -17,8 +23,9 @@ public class UserCommandTests
         command.PasswordHash = password;
         command.Type = type;
 
-        command.Validate();
-        Assert.IsTrue(command.IsValid);
+        _result = (CommandResult)_handler.Handle(command);
+
+        Assert.IsTrue(_result.Success);
     }
 
     [TestMethod]
@@ -26,7 +33,7 @@ public class UserCommandTests
     [DataRow("ba", "batman@wayne.com", "123456", EType.Manager)]
     [DataRow("", "robin@wayne.com", "123456", EType.Employee)]
     [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456", EType.Customer)]
-    public void ShouldReturnErrorWhenNameIsInvalid(string name, string addres, string password, EType type)
+    public void ShouldReturnErrorWhenCommandIsInvalid(string name, string addres, string password, EType type)
     {
         var command = new CreateUserCommand();
         command.Name = name;
@@ -34,8 +41,9 @@ public class UserCommandTests
         command.PasswordHash = password;
         command.Type = type;
 
-        command.Validate();
-        Assert.IsFalse(command.IsValid);
+        _result = (CommandResult)_handler.Handle(command);
+
+        Assert.IsFalse(_result.Success);
     }
 }
 
