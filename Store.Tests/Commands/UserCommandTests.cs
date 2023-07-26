@@ -1,8 +1,8 @@
-namespace Store.Tests.Entities;
+namespace Store.Tests.Commands;
 
 [TestClass]
 [TestCategory("Entities")]
-public class UserTests
+public class UserCommandTests
 {
     [TestMethod]
     [DataTestMethod]
@@ -11,8 +11,14 @@ public class UserTests
     [DataRow("superman", "superman@justiceleague.com", "123456", EType.Customer)]
     public void ShouldReturnSuccessWhenNameIsValid(string name, string addres, string password, EType type)
     {
-        var user = new User(name, new Email(addres), password, type);
-        Assert.IsTrue(user.IsValid);
+        var command = new CreateUserCommand();
+        command.Name = name;
+        command.Email = new Email(addres);
+        command.PasswordHash = password;
+        command.Type = type;
+
+        command.Validate();
+        Assert.IsTrue(command.IsValid);
     }
 
     [TestMethod]
@@ -22,8 +28,14 @@ public class UserTests
     [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456", EType.Customer)]
     public void ShouldReturnErrorWhenNameIsInvalid(string name, string addres, string password, EType type)
     {
-        var user = new User(name, new Email(addres), password, type);
-        Assert.IsFalse(user.IsValid);
+        var command = new CreateUserCommand();
+        command.Name = name;
+        command.Email = new Email(addres);
+        command.PasswordHash = password;
+        command.Type = type;
+
+        command.Validate();
+        Assert.IsFalse(command.IsValid);
     }
 }
 

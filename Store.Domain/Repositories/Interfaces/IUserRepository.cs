@@ -1,8 +1,12 @@
 
 using Store.Domain.Entities;
+using Store.Domain.ValueObjects;
 
 namespace Store.Domain.Repositories.Interfaces;
-public interface ICustomerRepository
+public interface IUserRepository
 {
-    User Get(string email);
+    void Save(User user);
+    void Update(User user);
+    User Get(Email email);
+    void Delete(User user);
 }

@@ -1,5 +1,3 @@
-using Store.Domain.ValueObjects;
-
 namespace Store.Tests.ValueObjects;
 
 [TestClass]
