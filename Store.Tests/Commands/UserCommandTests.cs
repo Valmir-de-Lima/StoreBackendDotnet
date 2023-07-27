@@ -13,9 +13,9 @@ public class UserCommandTests
     {
         var command = new CreateUserCommand();
         command.Name = name;
-        command.Email = new Email(addres);
+        command.Email = addres;
         command.PasswordHash = password;
-        command.Type = type;
+        command.Type = (int)type;
 
         command.Validate();
         Assert.IsTrue(command.IsValid);
@@ -30,9 +30,9 @@ public class UserCommandTests
     {
         var command = new CreateUserCommand();
         command.Name = name;
-        command.Email = new Email(addres);
+        command.Email = addres;
         command.PasswordHash = password;
-        command.Type = type;
+        command.Type = (int)type;
 
         command.Validate();
         Assert.IsFalse(command.IsValid);

@@ -6,6 +6,7 @@ namespace Store.Domain.Repositories.Interfaces;
 public interface IUserRepository
 {
     void Create(User user);
+    bool ExistsEmail(Email email);
     User GetByEmail(Email email);
     IEnumerable<User> GetAll();
     void Update(User user);

@@ -1,3 +1,4 @@
+using Store.Domain.Queries;
 using Store.Domain.Repositories.Interfaces;
 
 namespace Store.Tests.Repositories;
@@ -29,6 +30,11 @@ public class MockUserRepository : IUserRepository
     public IEnumerable<User> GetAll()
     {
         throw new NotImplementedException();
+    }
+    public bool ExistsEmail(Email email)
+    {
+        var user = _users.AsQueryable().FirstOrDefault(x => x.Email.Address == email.Address);
+        return user != null;
     }
 
     public User GetByEmail(Email email)

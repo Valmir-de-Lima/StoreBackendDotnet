@@ -1,6 +1,8 @@
 using Store.Domain.Commands;
 using Store.Domain.Entities;
+using Store.Domain.Enums;
 using Store.Domain.Repositories.Interfaces;
+using Store.Domain.ValueObjects;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
 using Store.Shared.Handlers;
@@ -24,14 +26,26 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
         if (!command.IsValid)
         {
             AddNotifications(command);
-            return new CommandResult(false, "Não foi possível cadastrar o usuário", Notifications);
+            return new CommandResult(false, Notifications);
         }
 
-        // Controi entidade
-        var user = new User(command.Name, command.Email, command.PasswordHash, command.Type);
+        // Build Value Objects
+        var email = new Email(command.Email);
+        var type = (EType)command.Type;
 
+        // Query e-mail exist
+        if (_repository.ExistsEmail(email))
+        {
+            AddNotification(command.Email, "Email já cadastrado");
+            return new CommandResult(false, Notifications);
+        }
+
+        // Build entity
+        var user = new User(command.Name, email, command.PasswordHash, type);
+
+        // Save database
         _repository.Create(user);
 
-        return new CommandResult(true, "Usuário cadastrado com sucesso", user);
+        return new CommandResult(true, user);
     }
 }

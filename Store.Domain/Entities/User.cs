@@ -15,6 +15,7 @@ public class User : Entity
         Link = email.Address.Replace("@", "-").Replace(".", "-");
         Type = type;
 
+        // Design by contracts
         AddNotifications(
             new CreateUserContract(this),
             Email
