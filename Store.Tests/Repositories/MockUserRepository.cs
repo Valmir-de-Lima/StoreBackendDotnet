@@ -37,9 +37,13 @@ public class MockUserRepository : IUserRepository
         return user != null;
     }
 
-    public User GetByEmail(Email email)
+    public User? GetByEmail(Email email)
     {
-        throw new NotImplementedException();
+        return _users.AsQueryable().FirstOrDefault(UserQueries.GetByEmail(email));
+    }
+    public User? GetByLink(string link)
+    {
+        return _users.AsQueryable().FirstOrDefault(UserQueries.GetByLink(link));
     }
 
     public void Update(User user)

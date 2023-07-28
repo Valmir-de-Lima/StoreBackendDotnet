@@ -25,7 +25,7 @@ public class UserQueriesTests
     [DataRow("superman@justiceleague.com")]
     public void ShouldReturnOneUserWhenEmailIsValid(string adress)
     {
-        var result = _repository.Users.AsQueryable().Where(UserQueries.GetByEmail(adress));
+        var result = _repository.Users.AsQueryable().Where(UserQueries.GetByEmail(new Email(adress)));
         Assert.AreEqual(1, result.Count());
     }
 
@@ -36,7 +36,7 @@ public class UserQueriesTests
     [DataRow("@justiceleague.com")]
     public void ShouldReturnZeroWhenEmailIsInvalid(string adress)
     {
-        var result = _repository.Users.AsQueryable().Where(UserQueries.GetByEmail(adress));
+        var result = _repository.Users.AsQueryable().Where(UserQueries.GetByEmail(new Email(adress)));
         Assert.AreEqual(0, result.Count());
     }
 

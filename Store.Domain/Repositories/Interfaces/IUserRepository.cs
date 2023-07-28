@@ -7,7 +7,8 @@ public interface IUserRepository
 {
     void Create(User user);
     bool ExistsEmail(Email email);
-    User GetByEmail(Email email);
+    User? GetByEmail(Email email);
+    User? GetByLink(string link);
     IEnumerable<User> GetAll();
     void Update(User user);
     void Delete(User user);

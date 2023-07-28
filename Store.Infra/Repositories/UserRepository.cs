@@ -41,10 +41,16 @@ public class UserRepository : IUserRepository
                .ToList();
     }
 
-    public User GetByEmail(Email email)
+    public User? GetByEmail(Email email)
     {
-        return _context.Users.First(x => x.Email == email);
+        return _context.Users.FirstOrDefault(UserQueries.GetByEmail(email));
     }
+
+    public User? GetByLink(string link)
+    {
+        return _context.Users.FirstOrDefault(UserQueries.GetByLink(link));
+    }
+
 
     public void Update(User user)
     {
