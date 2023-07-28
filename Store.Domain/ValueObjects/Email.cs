@@ -4,6 +4,10 @@ using Store.Domain.ValueObjects.Contracts;
 namespace Store.Domain.ValueObjects;
 public class Email : ValueObject
 {
+    public Email()
+    {
+
+    }
     public Email(string address)
     {
         Address = address;
@@ -14,5 +18,8 @@ public class Email : ValueObject
         );
     }
 
-    public string Address { get; private set; }
+    // É necessário o id do Usuario para o EF conectar Email -> User
+    public Guid UserId { get; private set; } = new Guid();
+
+    public string Address { get; private set; } = "";
 }

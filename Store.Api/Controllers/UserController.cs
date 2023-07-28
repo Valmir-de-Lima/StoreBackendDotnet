@@ -21,10 +21,19 @@ public class UserController : ControllerBase
 
     [Route("v1/users")]
     [HttpGet]
-    public IEnumerable<User> GetAll(
+    public CommandResult GetAll(
             [FromServices] IUserRepository repository
         )
     {
-        return repository.GetAll();
+        try
+        {
+            return new CommandResult(true, repository.GetAll());
+        }
+        catch (Exception ex)
+        {
+            return new CommandResult(false,
+                "Erro ao acessar o banco de dados: " + ex.ToString()
+            );
+        }
     }
 }

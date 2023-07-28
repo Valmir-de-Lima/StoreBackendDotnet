@@ -33,7 +33,7 @@ public class MockUserRepository : IUserRepository
     }
     public bool ExistsEmail(Email email)
     {
-        var user = _users.AsQueryable().FirstOrDefault(x => x.Email.Address == email.Address);
+        var user = _users.AsQueryable().FirstOrDefault(UserQueries.ExistsEmail(email));
         return user != null;
     }
 

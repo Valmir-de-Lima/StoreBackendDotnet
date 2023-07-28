@@ -7,6 +7,10 @@ namespace Store.Domain.Entities;
 
 public class User : Entity
 {
+    public User()
+    {
+
+    }
     public User(string name, Email email, string passwordHash, EType type)
     {
         Name = name;
@@ -23,7 +27,7 @@ public class User : Entity
     }
 
     public string Name { get; private set; } = "";
-    public Email Email { get; private set; }
+    public Email Email { get; private set; } = new("");
     public string PasswordHash { get; private set; } = "";
     public string Link { get; private set; } = "";
     public EType Type { get; private set; }

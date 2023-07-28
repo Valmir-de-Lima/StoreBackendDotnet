@@ -9,5 +9,5 @@ public abstract class Entity : Notifiable<Notification>
         Id = Guid.NewGuid();
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id { get; }
 }

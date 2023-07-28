@@ -11,6 +11,9 @@ public class UserMap : IEntityTypeConfiguration<User>
         // Tabela
         builder.ToTable("User");
 
+        // É necessário ignorar a propriedade Notifications para nao ser mapeada
+        builder.Ignore(x => x.Notifications);
+
         // Chave Primária
         builder.HasKey(x => x.Id);
 
@@ -21,13 +24,17 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnType("NVARCHAR")
             .HasMaxLength(80);
 
-        builder.Property(x => x.Email.Address)
-            .IsRequired()
-            .HasColumnName("Email")
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(160);
+        builder.OwnsOne(x => x.Email)
+           .Property(x => x.Address)
+           .HasColumnName("Email")
+           .IsRequired(true);
 
-        builder.Property(x => x.PasswordHash).IsRequired()
+        // É necessário ignorar a propriedade Notifications de Email para nao ser mapeada
+        builder.OwnsOne(x => x.Email)
+            .Ignore(x => x.Notifications);
+
+        builder.Property(x => x.PasswordHash)
+            .IsRequired()
             .HasColumnName("PasswordHash")
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);

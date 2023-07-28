@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Store.Domain.Entities;
+using Store.Domain.Queries;
 using Store.Domain.Repositories.Interfaces;
 using Store.Domain.ValueObjects;
 using Store.Infra.Data;
@@ -29,7 +30,7 @@ public class UserRepository : IUserRepository
 
     public bool ExistsEmail(Email email)
     {
-        var user = _context.Users.FirstOrDefault(x => x.Email == email);
+        var user = _context.Users.FirstOrDefault(UserQueries.ExistsEmail(email));
         return (user != null);
     }
 
