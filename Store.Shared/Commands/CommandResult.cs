@@ -3,7 +3,7 @@ using Store.Shared.Commands.Interfaces;
 namespace Store.Shared.Commands;
 public class CommandResult : ICommandResult
 {
-    public CommandResult(bool success, object data)
+    public CommandResult(bool success, object? data)
     {
         Success = success;
         Data = data;
