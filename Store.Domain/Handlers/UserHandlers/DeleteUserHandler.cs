@@ -19,7 +19,7 @@ public class DeleteUserHandler : Handler, IHandler<DeleteUserCommand>
         _repository = repository;
     }
 
-    public ICommandResult Handle(DeleteUserCommand command)
+    public async Task<ICommandResult> HandleAsync(DeleteUserCommand command)
     {
         // Fail Fast Validations
         command.Validate();
@@ -33,7 +33,7 @@ public class DeleteUserHandler : Handler, IHandler<DeleteUserCommand>
         var email = new Email(command.Email);
 
         // Get user repository
-        var user = _repository.GetByEmail(email);
+        var user = await _repository.GetByEmailAsync(email);
 
         // Query user exist
         if (user == null)
@@ -45,6 +45,6 @@ public class DeleteUserHandler : Handler, IHandler<DeleteUserCommand>
         // Save database
         _repository.Delete(user);
 
-        return new CommandResult(true, user);
+        return new CommandResult(true, new UserCommandResult(user));
     }
 }

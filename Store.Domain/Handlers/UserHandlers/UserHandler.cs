@@ -10,6 +10,7 @@ public class UserHandler : Handler,
     IHandler<CreateUserCommand>,
     IHandler<UpdateUserCommand>,
     IHandler<DeleteUserCommand>
+
 {
     private readonly IUserRepository _repository;
 
@@ -18,18 +19,24 @@ public class UserHandler : Handler,
         _repository = repository;
     }
 
-    public ICommandResult Handle(CreateUserCommand command)
+    public async Task<ICommandResult> HandleAsync(CreateUserCommand command)
     {
-        return new CreateUserHandler(_repository).Handle(command);
+        return await new CreateUserHandler(_repository).HandleAsync(command);
     }
 
-    public ICommandResult Handle(UpdateUserCommand command)
+    public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
     {
-        return new UpdateUserHandler(_repository).Handle(command);
+        return await new UpdateUserHandler(_repository).HandleAsync(command);
     }
 
-    public ICommandResult Handle(DeleteUserCommand command)
+    public async Task<ICommandResult> HandleAsync(DeleteUserCommand command)
     {
-        return new DeleteUserHandler(_repository).Handle(command);
+        return await new DeleteUserHandler(_repository).HandleAsync(command);
     }
+
+    public async Task<ICommandResult> HandleAsync(string command)
+    {
+        return await new GetUserHandler(_repository).HandleAsync(command);
+    }
+
 }

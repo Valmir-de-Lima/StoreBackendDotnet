@@ -19,7 +19,7 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
         _repository = repository;
     }
 
-    public ICommandResult Handle(CreateUserCommand command)
+    public async Task<ICommandResult> HandleAsync(CreateUserCommand command)
     {
         // Fail Fast Validations
         command.Validate();
@@ -34,7 +34,7 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
         var type = (EType)command.Type;
 
         // Query e-mail exist
-        if (_repository.ExistsEmail(email))
+        if (await _repository.ExistsEmailAsync(email))
         {
             AddNotification(command.Email, "Email já cadastrado");
             return new CommandResult(false, Notifications);
@@ -44,8 +44,8 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
         var user = new User(command.Name, email, command.PasswordHash, type);
 
         // Save database
-        _repository.Create(user);
+        await _repository.CreateAsync(user);
 
-        return new CommandResult(true, user);
+        return new CommandResult(true, new UserCommandResult(user));
     }
 }

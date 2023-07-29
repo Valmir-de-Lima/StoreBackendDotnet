@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Store.Domain.Commands.UserCommands;
 using Store.Domain.Entities;
 using Store.Domain.Queries;
 using Store.Domain.Repositories.Interfaces;
@@ -16,9 +17,9 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public void Create(User user)
+    public async Task CreateAsync(User user)
     {
-        _context.Users.AddAsync(user);
+        await _context.Users.AddAsync(user);
         _context.SaveChanges();
     }
 
@@ -28,27 +29,30 @@ public class UserRepository : IUserRepository
         _context.SaveChanges();
     }
 
-    public bool ExistsEmail(Email email)
+    public async Task<bool> ExistsEmailAsync(Email email)
     {
-        var user = _context.Users.FirstOrDefault(UserQueries.ExistsEmail(email));
+        var user = await _context.Users.FirstOrDefaultAsync(UserQueries.ExistsEmail(email));
         return (user != null);
     }
 
-    public IEnumerable<User> GetAll()
+    public async Task<IEnumerable<UserCommandResult>> GetAllAsync()
     {
-        return _context.Users
-               .AsNoTracking()
-               .ToList();
+        return new List<UserCommandResult>(await
+                _context.Users
+                .AsNoTracking()
+                .Select(x => new UserCommandResult(x))
+                .ToListAsync()
+        );
     }
 
-    public User? GetByEmail(Email email)
+    public async Task<User?> GetByEmailAsync(Email email)
     {
-        return _context.Users.FirstOrDefault(UserQueries.GetByEmail(email));
+        return await _context.Users.FirstOrDefaultAsync(UserQueries.GetByEmail(email));
     }
 
-    public User? GetByLink(string link)
+    public async Task<User?> GetByLinkAsync(string link)
     {
-        return _context.Users.FirstOrDefault(UserQueries.GetByLink(link));
+        return await _context.Users.FirstOrDefaultAsync(UserQueries.GetByLink(link));
     }
 
 

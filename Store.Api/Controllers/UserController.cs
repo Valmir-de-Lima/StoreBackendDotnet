@@ -10,95 +10,95 @@ public class UserController : ControllerBase
 {
     [Route("v1/users")]
     [HttpPost]
-    public CommandResult Create(
+    public async Task<IActionResult> Create(
         [FromBody] CreateUserCommand command,
         [FromServices] UserHandler handler
     )
     {
         try
         {
-            return (CommandResult)handler.Handle(command);
+            return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch
         {
-            return new CommandResult(false,
+            return StatusCode(500, new CommandResult(false,
                 "Erro ao acessar o banco de dados"
-            );
+            ));
         }
     }
 
     [Route("v1/users")]
     [HttpGet]
-    public CommandResult GetAll(
+    public async Task<IActionResult> GetAll(
             [FromServices] IUserRepository repository
         )
     {
         try
         {
-            return new CommandResult(true, repository.GetAll());
+            return Ok(new CommandResult(true, await repository.GetAllAsync()));
         }
         catch
         {
-            return new CommandResult(false,
+            return StatusCode(500, new CommandResult(false,
                 "Erro ao acessar o banco de dados"
-            );
+            ));
         }
     }
 
     [Route("v1/users/{link}")]
     [HttpGet]
-    public CommandResult GetByLink(
-        [FromServices] IUserRepository repository,
+    public async Task<IActionResult> GetByLink(
+        [FromServices] UserHandler handler,
         [FromRoute] string link
     )
     {
         try
         {
-            return new CommandResult(true, repository.GetByLink(link));
+            return Ok((CommandResult)await handler.HandleAsync(link));
         }
         catch
         {
-            return new CommandResult(false,
+            return StatusCode(500, new CommandResult(false,
                 "Erro ao acessar o banco de dados"
-            );
+            ));
         }
     }
 
     [Route("v1/users")]
     [HttpPut]
-    public CommandResult Update(
+    public async Task<IActionResult> Update(
         [FromBody] UpdateUserCommand command,
         [FromServices] UserHandler handler
     )
     {
         try
         {
-            return (CommandResult)handler.Handle(command);
+            return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch
         {
-            return new CommandResult(false,
+            return StatusCode(500, new CommandResult(false,
                 "Erro ao acessar o banco de dados"
-            );
+            ));
         }
     }
 
     [Route("v1/users")]
     [HttpDelete]
-    public CommandResult Delete(
+    public async Task<IActionResult> Delete(
     [FromBody] DeleteUserCommand command,
     [FromServices] UserHandler handler
 )
     {
         try
         {
-            return (CommandResult)handler.Handle(command);
+            return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch
         {
-            return new CommandResult(false,
+            return StatusCode(500, new CommandResult(false,
                 "Erro ao acessar o banco de dados"
-            );
+            ));
         }
     }
 

@@ -19,7 +19,7 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
         _repository = repository;
     }
 
-    public ICommandResult Handle(UpdateUserCommand command)
+    public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
     {
         // Fail Fast Validations
         command.Validate();
@@ -34,7 +34,7 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
         var type = (EType)command.Type;
 
         // Get user repository
-        var user = _repository.GetByEmail(email);
+        var user = await _repository.GetByEmailAsync(email);
 
         // Query user exist
         if (user == null)
@@ -48,6 +48,6 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
         // Save database
         _repository.Update(user);
 
-        return new CommandResult(true, user);
+        return new CommandResult(true, new UserCommandResult(user));
     }
 }

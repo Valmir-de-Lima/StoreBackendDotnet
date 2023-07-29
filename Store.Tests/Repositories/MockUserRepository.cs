@@ -17,38 +17,50 @@ public class MockUserRepository : IUserRepository
     }
 
 
-    public void Create(User user)
+    public async Task CreateAsync(User user)
     {
-        //throw new NotImplementedException();
+        _users.Add(user);
+        await Task.CompletedTask;
     }
 
     public void Delete(User user)
     {
-        //throw new NotImplementedException();
+        _users.Remove(user);
     }
 
-    public IEnumerable<User> GetAll()
+    public async Task<IEnumerable<UserCommandResult>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        await Task.CompletedTask;
+        return new List<UserCommandResult>(
+                _users
+                .AsQueryable()
+                .Select(x => new UserCommandResult(x))
+                );
     }
-    public bool ExistsEmail(Email email)
+    public async Task<bool> ExistsEmailAsync(Email email)
     {
         var user = _users.AsQueryable().FirstOrDefault(UserQueries.ExistsEmail(email));
+        await Task.CompletedTask;
         return user != null;
     }
 
-    public User? GetByEmail(Email email)
+    public async Task<User?> GetByEmailAsync(Email email)
     {
+        await Task.CompletedTask;
         return _users.AsQueryable().FirstOrDefault(UserQueries.GetByEmail(email));
     }
-    public User? GetByLink(string link)
+    public async Task<User?> GetByLinkAsync(string link)
     {
+        await Task.CompletedTask;
         return _users.AsQueryable().FirstOrDefault(UserQueries.GetByLink(link));
     }
 
     public void Update(User user)
     {
-        //throw new NotImplementedException();
+        var userOld = _users.AsQueryable().FirstOrDefault(UserQueries.GetByLink(user.Link));
+        if (userOld != null)
+            _users.Remove(userOld);
+        _users.Add(user);
     }
 
     public List<User> Users => _users;
