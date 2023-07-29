@@ -1,17 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-using Store.Domain.Handlers;
-using Store.Domain.Repositories.Interfaces;
-using Store.Infra.Data;
-using Store.Infra.Repositories;
+using Store.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddDbContext<StoreDataContext>(opt => opt.UseInMemoryDatabase("Database"));
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<CreateUserHandler, CreateUserHandler>();
-
 builder.Services.AddControllers();
+
+// ProgramExtensions.cs
+builder.ConfigureServices();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

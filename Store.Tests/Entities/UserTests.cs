@@ -25,5 +25,16 @@ public class UserTests
         var user = new User(name, new Email(addres), password, type);
         Assert.IsFalse(user.IsValid);
     }
+
+    [TestMethod]
+    [DataTestMethod]
+    [DataRow("batman", "batman@wayne.com", "123456", -1)]
+    [DataRow("robin", "robin@wayne.com", "123456", 3)]
+    [DataRow("superman", "superman@justiceleague.com", "123456", 4)]
+    public void ShouldReturnErrorWhenTypeIsInvalid(string name, string addres, string password, EType type)
+    {
+        var user = new User(name, new Email(addres), password, type);
+        Assert.IsFalse(user.IsValid);
+    }
 }
 

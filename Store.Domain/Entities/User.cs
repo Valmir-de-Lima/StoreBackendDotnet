@@ -31,4 +31,15 @@ public class User : Entity
     public string PasswordHash { get; private set; } = "";
     public string Link { get; private set; } = "";
     public EType Type { get; private set; }
+
+    public void Update(string name, string passwordHash, EType type)
+    {
+        Name = name;
+        PasswordHash = passwordHash;
+        Type = type;
+        // Design by contracts
+        AddNotifications(
+            new CreateUserContract(this)
+        );
+    }
 }

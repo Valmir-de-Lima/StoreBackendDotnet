@@ -1,23 +1,23 @@
 using Store.Tests.Repositories;
 
-namespace Store.Tests.Handlers;
+namespace Store.Tests.Handlers.UserHandlerTests;
 
 [TestClass]
 [TestCategory("Handlers")]
-public class CreateUserHandlersTests
+public class UpdateUserHandlersTests
 {
-    private readonly CreateUserHandler _handler = new CreateUserHandler(new MockUserRepository());
+    private readonly UserHandler _handler = new UserHandler(new MockUserRepository());
 
     private CommandResult _result = new(false, "");
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@justice.com", "123456", 2)]
-    [DataRow("robin", "robin@justice.com", "123456", 1)]
-    [DataRow("superman", "superman@justice.com", "123456", 0)]
+    [DataRow("batman", "batman@wayne.com", "123456", 2)]
+    [DataRow("robin", "robin@wayne.com", "123456", 1)]
+    [DataRow("superman", "superman@justiceleague.com", "123456", 0)]
     public void ShouldReturnSuccessWhenCommandIsValid(string name, string addres, string password, int type)
     {
-        var command = new CreateUserCommand();
+        var command = new UpdateUserCommand();
         command.Name = name;
         command.Email = addres;
         command.PasswordHash = password;
@@ -35,7 +35,7 @@ public class CreateUserHandlersTests
     [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456", 0)]
     public void ShouldReturnErrorWhenCommandIsInvalid(string name, string addres, string password, int type)
     {
-        var command = new CreateUserCommand();
+        var command = new UpdateUserCommand();
         command.Name = name;
         command.Email = addres;
         command.PasswordHash = password;
@@ -53,7 +53,7 @@ public class CreateUserHandlersTests
     [DataRow("superman", "superman@justiceleague.com", "123456", 4)]
     public void ShouldReturnErrorWhenTypeIsInvalid(string name, string addres, string password, int type)
     {
-        var command = new CreateUserCommand();
+        var command = new UpdateUserCommand();
         command.Name = name;
         command.Email = addres;
         command.PasswordHash = password;
@@ -66,12 +66,12 @@ public class CreateUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "123456", 2)]
-    [DataRow("robin", "robin@wayne.com", "123456", 1)]
-    [DataRow("superman", "superman@justiceleague.com", "123456", 0)]
-    public void ShouldReturnErrorWhenEmailExists(string name, string addres, string password, int type)
+    [DataRow("batman", "batman@batman.com", "123456", 2)]
+    [DataRow("robin", "robin@robin.com", "123456", 1)]
+    [DataRow("superman", "superman@justice.com", "123456", 0)]
+    public void ShouldReturnErrorWhenEmailDontExists(string name, string addres, string password, int type)
     {
-        var command = new CreateUserCommand();
+        var command = new UpdateUserCommand();
         command.Name = name;
         command.Email = addres;
         command.PasswordHash = password;

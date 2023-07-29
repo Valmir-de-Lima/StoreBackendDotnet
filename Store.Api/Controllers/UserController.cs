@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Store.Domain.Commands;
-using Store.Domain.Entities;
-using Store.Domain.Handlers;
+using Store.Domain.Commands.UserCommands;
+using Store.Domain.Handlers.UserHandlers;
 using Store.Domain.Repositories.Interfaces;
-using Store.Domain.ValueObjects;
 using Store.Shared.Commands;
 
 namespace Store.Api.Controllers;
@@ -14,7 +12,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public CommandResult Create(
         [FromBody] CreateUserCommand command,
-        [FromServices] CreateUserHandler handler
+        [FromServices] UserHandler handler
     )
     {
         try
@@ -57,6 +55,44 @@ public class UserController : ControllerBase
         try
         {
             return new CommandResult(true, repository.GetByLink(link));
+        }
+        catch
+        {
+            return new CommandResult(false,
+                "Erro ao acessar o banco de dados"
+            );
+        }
+    }
+
+    [Route("v1/users")]
+    [HttpPut]
+    public CommandResult Update(
+        [FromBody] UpdateUserCommand command,
+        [FromServices] UserHandler handler
+    )
+    {
+        try
+        {
+            return (CommandResult)handler.Handle(command);
+        }
+        catch
+        {
+            return new CommandResult(false,
+                "Erro ao acessar o banco de dados"
+            );
+        }
+    }
+
+    [Route("v1/users")]
+    [HttpDelete]
+    public CommandResult Delete(
+    [FromBody] DeleteUserCommand command,
+    [FromServices] UserHandler handler
+)
+    {
+        try
+        {
+            return (CommandResult)handler.Handle(command);
         }
         catch
         {

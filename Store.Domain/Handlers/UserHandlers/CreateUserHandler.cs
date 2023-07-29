@@ -1,4 +1,4 @@
-using Store.Domain.Commands;
+using Store.Domain.Commands.UserCommands;
 using Store.Domain.Entities;
 using Store.Domain.Enums;
 using Store.Domain.Repositories.Interfaces;
@@ -7,7 +7,7 @@ using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
 using Store.Shared.Handlers;
 
-namespace Store.Domain.Handlers;
+namespace Store.Domain.Handlers.UserHandlers;
 
 public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
 {
