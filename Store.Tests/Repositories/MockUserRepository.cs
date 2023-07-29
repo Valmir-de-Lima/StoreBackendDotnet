@@ -28,7 +28,7 @@ public class MockUserRepository : IUserRepository
         _users.Remove(user);
     }
 
-    public async Task<IEnumerable<UserCommandResult>> GetAllAsync()
+    public async Task<dynamic> GetAllAsync(int skip = 0, int take = 25)
     {
         await Task.CompletedTask;
         return new List<UserCommandResult>(

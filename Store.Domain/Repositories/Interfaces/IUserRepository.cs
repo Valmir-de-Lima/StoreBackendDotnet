@@ -10,7 +10,7 @@ public interface IUserRepository
     Task<bool> ExistsEmailAsync(Email email);
     Task<User?> GetByEmailAsync(Email email);
     Task<User?> GetByLinkAsync(string link);
-    Task<IEnumerable<UserCommandResult>> GetAllAsync();
+    Task<dynamic> GetAllAsync(int skip = 0, int take = 25);
     void Update(User user);
     void Delete(User user);
 }

@@ -35,14 +35,26 @@ public class UserRepository : IUserRepository
         return (user != null);
     }
 
-    public async Task<IEnumerable<UserCommandResult>> GetAllAsync()
+    public async Task<dynamic> GetAllAsync(int skip = 0, int take = 25)
     {
-        return new List<UserCommandResult>(await
-                _context.Users
-                .AsNoTracking()
-                .Select(x => new UserCommandResult(x))
-                .ToListAsync()
+        var count = await _context.Users
+                            .AsNoTracking()
+                            .CountAsync();
+        var list = new List<UserCommandResult>(
+                await _context.Users
+                            .AsNoTracking()
+                            .Select(x => new UserCommandResult(x))
+                            .Skip(skip)
+                            .Take(take)
+                            .ToListAsync()
         );
+        return new
+        {
+            count,
+            skip,
+            take,
+            list
+        };
     }
 
     public async Task<User?> GetByEmailAsync(Email email)

@@ -27,15 +27,17 @@ public class UserController : ControllerBase
         }
     }
 
-    [Route("v1/users")]
+    [Route("v1/users/")]
     [HttpGet]
     public async Task<IActionResult> GetAll(
-            [FromServices] IUserRepository repository
+            [FromServices] IUserRepository repository,
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 25
         )
     {
         try
         {
-            return Ok(new CommandResult(true, await repository.GetAllAsync()));
+            return Ok(new CommandResult(true, await repository.GetAllAsync(skip, take)));
         }
         catch
         {
