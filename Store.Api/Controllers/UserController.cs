@@ -27,7 +27,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [Route("v1/users/")]
+    [Route("v1/users")]
     [HttpGet]
     public async Task<IActionResult> GetAll(
             [FromServices] IUserRepository repository,

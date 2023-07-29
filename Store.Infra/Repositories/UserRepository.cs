@@ -67,7 +67,6 @@ public class UserRepository : IUserRepository
         return await _context.Users.FirstOrDefaultAsync(UserQueries.GetByLink(link));
     }
 
-
     public void Update(User user)
     {
         _context.Users.Update(user);
