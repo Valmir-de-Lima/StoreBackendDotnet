@@ -9,7 +9,7 @@ public class EmailTests
     [DataRow("batman@wayne.com")]
     [DataRow("robin@wayne.com")]
     [DataRow("superman@justiceleague.com")]
-    public void ShouldReturnSuccessWhenEmailIsValid(string adress)
+    public void ShouldReturnValidEmailWhenAdressIsValid(string adress)
     {
         var email = new Email(adress);
         Assert.IsTrue(email.IsValid);
@@ -20,7 +20,7 @@ public class EmailTests
     [DataRow("batman.com")]
     [DataRow("robin @wayne.com")]
     [DataRow("@justiceleague.com")]
-    public void ShouldReturnErrorWhenEmailIsInvalid(string adress)
+    public void ShouldReturnInvalidEmailWhenAdressIsInvalid(string adress)
     {
         var email = new Email(adress);
         Assert.IsFalse(email.IsValid);
