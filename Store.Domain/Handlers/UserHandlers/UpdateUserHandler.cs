@@ -31,7 +31,6 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
 
         // Build Value Objects
         var email = new Email(command.Email);
-        var type = (EType)command.Type;
 
         // Get user repository
         var user = await _repository.GetByEmailAsync(email);
@@ -43,7 +42,7 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        user.Update(command.Name, command.PasswordHash, type);
+        user.Update(command.Name, command.PasswordHash, EType.Customer);
 
         // Save database
         _repository.Update(user);

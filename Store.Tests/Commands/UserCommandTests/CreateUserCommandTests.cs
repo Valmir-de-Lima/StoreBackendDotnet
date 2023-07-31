@@ -8,15 +8,14 @@ public class CreateUserCommandTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "123456", EType.Manager)]
-    [DataRow("robin", "robin@wayne.com", "123456", EType.Employee)]
-    [DataRow("superman", "superman@justiceleague.com", "123456", EType.Customer)]
-    public void ShouldReturnValidCommandWhenDatasAreValids(string name, string addres, string password, EType type)
+    [DataRow("batman", "batman@wayne.com", "123456")]
+    [DataRow("robin", "robin@wayne.com", "123456")]
+    [DataRow("superman", "superman@justiceleague.com", "123456")]
+    public void ShouldReturnValidCommandWhenDatasAreValids(string name, string addres, string password)
     {
         _command.Name = name;
         _command.Email = addres;
         _command.PasswordHash = password;
-        _command.Type = (int)type;
 
         _command.Validate();
         Assert.IsTrue(_command.IsValid);
@@ -24,15 +23,14 @@ public class CreateUserCommandTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("ba", "batman@wayne.com", "123456", EType.Manager)]
-    [DataRow("", "robin@wayne.com", "123456", EType.Employee)]
-    [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456", EType.Customer)]
-    public void ShouldReturnInvalidCommandWhenNameIsInvalid(string name, string addres, string password, EType type)
+    [DataRow("ba", "batman@wayne.com", "123456")]
+    [DataRow("", "robin@wayne.com", "123456")]
+    [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456")]
+    public void ShouldReturnInvalidCommandWhenNameIsInvalid(string name, string addres, string password)
     {
         _command.Name = name;
         _command.Email = addres;
         _command.PasswordHash = password;
-        _command.Type = (int)type;
 
         _command.Validate();
         Assert.IsFalse(_command.IsValid);
@@ -40,32 +38,14 @@ public class CreateUserCommandTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "123456", -1)]
-    [DataRow("robin", "robin@wayne.com", "123456", 3)]
-    [DataRow("superman", "superman@justiceleague.com", "123456", 4)]
-
-    public void ShouldReturnInvalidCommandWhenTypeIsInvalid(string name, string addres, string password, EType type)
+    [DataRow("batman", "@wayne.com", "123456")]
+    [DataRow("robin", "robin@.com", "123456")]
+    [DataRow("superman", "supermanjusticeleague.com", "123456")]
+    public void ShouldReturnInvalidCommandWhenEmailIsInvalid(string name, string addres, string password)
     {
         _command.Name = name;
         _command.Email = addres;
         _command.PasswordHash = password;
-        _command.Type = (int)type;
-
-        _command.Validate();
-        Assert.IsFalse(_command.IsValid);
-    }
-
-    [TestMethod]
-    [DataTestMethod]
-    [DataRow("batman", "@wayne.com", "123456", 0)]
-    [DataRow("robin", "robin@.com", "123456", 1)]
-    [DataRow("superman", "supermanjusticeleague.com", "123456", 2)]
-    public void ShouldReturnInvalidCommandWhenEmailIsInvalid(string name, string addres, string password, EType type)
-    {
-        _command.Name = name;
-        _command.Email = addres;
-        _command.PasswordHash = password;
-        _command.Type = (int)type;
 
         _command.Validate();
         Assert.IsFalse(_command.IsValid);

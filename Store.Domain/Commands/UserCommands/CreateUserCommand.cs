@@ -12,13 +12,12 @@ public class CreateUserCommand : Command, ICommand
     public string Name { get; set; } = "";
     public string Email { get; set; } = "";
     public string PasswordHash { get; set; } = "";
-    public int Type { get; set; }
 
     public void Validate()
     {
         var email = new Email(Email);
         AddNotifications(new CreateUserContract(
-            new User(Name, email, PasswordHash, (EType)Type)
+            new User(Name, email, PasswordHash, EType.Customer)
         ), email);
     }
 }

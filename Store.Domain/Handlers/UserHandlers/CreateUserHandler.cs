@@ -31,7 +31,6 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
 
         // Build Value Objects
         var email = new Email(command.Email);
-        var type = (EType)command.Type;
 
         // Query e-mail exist
         if (await _repository.ExistsEmailAsync(email))
@@ -41,7 +40,7 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
         }
 
         // Build entity
-        var user = new User(command.Name, email, command.PasswordHash, type);
+        var user = new User(command.Name, email, command.PasswordHash, EType.Customer);
 
         // Save database
         await _repository.CreateAsync(user);

@@ -13,7 +13,7 @@ public class DeleteUserHandlersTests
     [DataRow("batman@wayne.com", "123456")]
     [DataRow("robin@wayne.com", "123456")]
     [DataRow("superman@justiceleague.com", "123456")]
-    public async Task ShouldReturnSuccessWhenEmailExists(string addres, string password)
+    public async Task ShouldReturnTrueSuccessWhenEmailExists(string addres, string password)
     {
         var command = new DeleteUserCommand();
         command.Email = addres;
@@ -29,7 +29,7 @@ public class DeleteUserHandlersTests
     [DataRow("batman@batman.com", "123456")]
     [DataRow("robin@robin.com", "123456")]
     [DataRow("superman@justice.com", "123456")]
-    public async Task ShouldReturnErrorWhenEmailDontExists(string addres, string password)
+    public async Task ShouldReturnFalseSucessWhenEmailDontExists(string addres, string password)
     {
         var command = new DeleteUserCommand();
         command.Email = addres;
