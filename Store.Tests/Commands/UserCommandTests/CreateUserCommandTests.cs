@@ -15,7 +15,7 @@ public class CreateUserCommandTests
     {
         _command.Name = name;
         _command.Email = addres;
-        _command.PasswordHash = password;
+        _command.Password = password;
 
         _command.Validate();
         Assert.IsTrue(_command.IsValid);
@@ -30,7 +30,7 @@ public class CreateUserCommandTests
     {
         _command.Name = name;
         _command.Email = addres;
-        _command.PasswordHash = password;
+        _command.Password = password;
 
         _command.Validate();
         Assert.IsFalse(_command.IsValid);
@@ -45,7 +45,7 @@ public class CreateUserCommandTests
     {
         _command.Name = name;
         _command.Email = addres;
-        _command.PasswordHash = password;
+        _command.Password = password;
 
         _command.Validate();
         Assert.IsFalse(_command.IsValid);

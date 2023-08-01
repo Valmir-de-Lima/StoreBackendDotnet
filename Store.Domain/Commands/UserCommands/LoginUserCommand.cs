@@ -7,7 +7,7 @@ using Store.Shared.Commands;
 
 namespace Store.Domain.Commands.UserCommands;
 
-public class UpdateUserCommand : Command, ICommand
+public class LoginUserCommand : Command, ICommand
 {
     public string Name { get; set; } = "";
     public string Email { get; set; } = "";

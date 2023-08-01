@@ -1,12 +1,10 @@
-using Store.Tests.Repositories;
-
 namespace Store.Tests.Handlers.UserHandlerTests;
 
 [TestClass]
 [TestCategory("Handlers")]
 public class CreateUserHandlersTests
 {
-    private readonly UserHandler _handler = new UserHandler(new MockUserRepository());
+    private readonly UserHandler _handler = new UserHandler(new MockUserRepository(), new MockTokenService());
 
     [TestMethod]
     [DataTestMethod]
@@ -18,7 +16,7 @@ public class CreateUserHandlersTests
         var command = new CreateUserCommand();
         command.Name = name;
         command.Email = addres;
-        command.PasswordHash = password;
+        command.Password = password;
 
         var _result = (CommandResult)await _handler.HandleAsync(command);
 
@@ -35,7 +33,7 @@ public class CreateUserHandlersTests
         var command = new CreateUserCommand();
         command.Name = name;
         command.Email = addres;
-        command.PasswordHash = password;
+        command.Password = password;
 
         var _result = (CommandResult)await _handler.HandleAsync(command);
 
@@ -52,7 +50,7 @@ public class CreateUserHandlersTests
         var command = new CreateUserCommand();
         command.Name = name;
         command.Email = addres;
-        command.PasswordHash = password;
+        command.Password = password;
 
         var _result = (CommandResult)await _handler.HandleAsync(command);
 

@@ -1,5 +1,6 @@
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Repositories.Interfaces;
+using Store.Domain.Services;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
 using Store.Shared.Handlers;
@@ -9,14 +10,16 @@ namespace Store.Domain.Handlers.UserHandlers;
 public class UserHandler : Handler,
     IHandler<CreateUserCommand>,
     IHandler<UpdateUserCommand>,
-    IHandler<DeleteUserCommand>
-
+    IHandler<DeleteUserCommand>,
+    IHandler<LoginUserCommand>
 {
     private readonly IUserRepository _repository;
+    private readonly ITokenService _tokenService;
 
-    public UserHandler(IUserRepository repository)
+    public UserHandler(IUserRepository repository, ITokenService tokenService)
     {
         _repository = repository;
+        _tokenService = tokenService;
     }
 
     public async Task<ICommandResult> HandleAsync(CreateUserCommand command)
@@ -39,4 +42,8 @@ public class UserHandler : Handler,
         return await new GetUserHandler(_repository).HandleAsync(command);
     }
 
+    public async Task<ICommandResult> HandleAsync(LoginUserCommand command)
+    {
+        return await new LoginUserHandler(_repository, _tokenService).HandleAsync(command);
+    }
 }

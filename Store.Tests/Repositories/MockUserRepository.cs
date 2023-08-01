@@ -11,9 +11,9 @@ public class MockUserRepository : IUserRepository
     public MockUserRepository()
     {
         _users = new List<User>();
-        _users.Add(new User("batman", new Email("batman@wayne.com"), "123456", EType.Manager));
-        _users.Add(new User("robin", new Email("robin@wayne.com"), "123456", EType.Employee));
-        _users.Add(new User("superman", new Email("superman@justiceleague.com"), "123456", EType.Customer));
+        _users.Add(new User("batman", new Email("batman@wayne.com"), "10000.Quc68w35aSdEb0DW1Ixj9A==.hVplueBXovXL8di31/lZHPSVThZrwE126bFmkI4jnWI=", EType.Manager));
+        _users.Add(new User("robin", new Email("robin@wayne.com"), "10000.KLsp79knsgWyYAjGlbxJkQ==.VtNsEMwQnhdSaeGhnFovCVYnt9VsgW2u9wKCf5ds84g=", EType.Employee));
+        _users.Add(new User("superman", new Email("superman@justiceleague.com"), "10000.1s77HqQyilPTGkbp1kjVkA==.KW7WGqFVJwtYndyR93vjK0Vl13Ht6wzql1aAVYr3W38=", EType.Customer));
     }
 
 

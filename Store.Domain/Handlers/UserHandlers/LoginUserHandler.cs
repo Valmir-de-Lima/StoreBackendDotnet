@@ -3,6 +3,7 @@ using Store.Domain.Commands.UserCommands;
 using Store.Domain.Entities;
 using Store.Domain.Enums;
 using Store.Domain.Repositories.Interfaces;
+using Store.Domain.Services;
 using Store.Domain.ValueObjects;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
@@ -10,17 +11,19 @@ using Store.Shared.Handlers;
 
 namespace Store.Domain.Handlers.UserHandlers;
 
-public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
+public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
 {
 
     private readonly IUserRepository _repository;
+    private readonly ITokenService _tokenService;
 
-    public UpdateUserHandler(IUserRepository repository)
+    public LoginUserHandler(IUserRepository repository, ITokenService tokenService)
     {
         _repository = repository;
+        _tokenService = tokenService;
     }
 
-    public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
+    public async Task<ICommandResult> HandleAsync(LoginUserCommand command)
     {
         // Fail Fast Validations
         command.Validate();
@@ -43,13 +46,17 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        var passwordHash = PasswordHasher.Hash(command.Password);
+        if (!PasswordHasher.Verify(user.PasswordHash, command.Password))
+        {
+            AddNotification(command.Password, "Usuario ou senha inválidos");
+            return new CommandResult(false, Notifications);
+        }
 
-        user.Update(command.Name, passwordHash, EType.Customer);
+        var token = _tokenService.GenerateToken(user);
 
-        // Save database
-        _repository.Update(user);
-
-        return new CommandResult(true, new UserCommandResult(user));
+        return new CommandResult(true, new
+        {
+            token
+        });
     }
 }

@@ -2,7 +2,7 @@ namespace Store.Tests.Handlers.UserHandlerTests;
 
 [TestClass]
 [TestCategory("Handlers")]
-public class UpdateUserHandlersTests
+public class LoginUserHandlersTests
 {
     private readonly UserHandler _handler = new UserHandler(new MockUserRepository(), new MockTokenService());
 
@@ -13,7 +13,7 @@ public class UpdateUserHandlersTests
     [DataRow("superman", "superman@justiceleague.com", "123456")]
     public async Task ShouldReturnTrueSuccessWhenDatasAreValids(string name, string addres, string password)
     {
-        var command = new UpdateUserCommand();
+        var command = new LoginUserCommand();
         command.Name = name;
         command.Email = addres;
         command.Password = password;
@@ -30,7 +30,7 @@ public class UpdateUserHandlersTests
     [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456")]
     public async Task ShouldReturnFalseSucessWhenNameIsInvalid(string name, string addres, string password)
     {
-        var command = new UpdateUserCommand();
+        var command = new LoginUserCommand();
         command.Name = name;
         command.Email = addres;
         command.Password = password;
@@ -47,7 +47,7 @@ public class UpdateUserHandlersTests
     [DataRow("superman", "superman@justice.com", "123456")]
     public async Task ShouldReturnFalseSucessWhenEmailDontExists(string name, string addres, string password)
     {
-        var command = new UpdateUserCommand();
+        var command = new LoginUserCommand();
         command.Name = name;
         command.Email = addres;
         command.Password = password;
@@ -57,5 +57,21 @@ public class UpdateUserHandlersTests
         Assert.IsFalse(_result.Success);
     }
 
+    [TestMethod]
+    [DataTestMethod]
+    [DataRow("batman", "batman@wayne.com", "")]
+    [DataRow("robin", "robin@wayne.com", "123455")]
+    [DataRow("superman", "superman@justiceleague.com", "123456123456")]
+    public async Task ShouldReturnFalseSucessWhenPasswordDontMatch(string name, string addres, string password)
+    {
+        var command = new LoginUserCommand();
+        command.Name = name;
+        command.Email = addres;
+        command.Password = password;
+
+        var _result = (CommandResult)await _handler.HandleAsync(command);
+
+        Assert.IsFalse(_result.Success);
+    }
 }
 

@@ -2,9 +2,9 @@ namespace Store.Tests.Commands.UserCommandTests;
 
 [TestClass]
 [TestCategory("Commands")]
-public class UpdateUserCommandTests
+public class LoginUserCommandTests
 {
-    private UpdateUserCommand _command = new();
+    private LoginUserCommand _command = new();
 
     [TestMethod]
     [DataTestMethod]

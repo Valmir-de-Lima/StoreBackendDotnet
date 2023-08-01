@@ -1,3 +1,4 @@
+using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Entities;
 using Store.Domain.Enums;
@@ -39,8 +40,10 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
+        var passwordHash = PasswordHasher.Hash(command.Password);
+
         // Build entity
-        var user = new User(command.Name, email, command.PasswordHash, EType.Customer);
+        var user = new User(command.Name, email, passwordHash, EType.Customer);
 
         // Save database
         await _repository.CreateAsync(user);

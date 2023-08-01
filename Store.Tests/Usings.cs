@@ -5,3 +5,5 @@ global using Store.Domain.Enums;
 global using Store.Domain.ValueObjects;
 global using Store.Domain.Handlers.UserHandlers;
 global using Store.Shared.Commands;
+global using Store.Tests.Repositories;
+global using Store.Tests.Services;

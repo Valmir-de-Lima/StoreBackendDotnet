@@ -4,7 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// ProgramExtensions.cs
+// BuilderExtensions.cs
+builder.LoadConfiguration();
+builder.ConfigureAuthentication();
 builder.ConfigureServices();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -20,6 +22,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

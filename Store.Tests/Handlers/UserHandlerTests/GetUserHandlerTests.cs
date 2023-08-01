@@ -1,12 +1,10 @@
-using Store.Tests.Repositories;
-
 namespace Store.Tests.Handlers.UserHandlerTests;
 
 [TestClass]
 [TestCategory("Handlers")]
 public class GetUserHandlersTests
 {
-    private readonly UserHandler _handler = new UserHandler(new MockUserRepository());
+    private readonly UserHandler _handler = new UserHandler(new MockUserRepository(), new MockTokenService());
 
     [TestMethod]
     [DataTestMethod]

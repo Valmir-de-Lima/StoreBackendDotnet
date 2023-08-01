@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blog.Controllers
+namespace Store.Api.Controllers
 {
     [ApiController]
     [Route("")]
