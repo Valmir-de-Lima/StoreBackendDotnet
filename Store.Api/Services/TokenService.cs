@@ -5,11 +5,19 @@ using Store.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using Store.Domain.Services;
 using System.Security.Cryptography;
+using Store.Domain.Repositories.Interfaces;
 
 namespace Store.Api.Services;
 
 public class TokenService : ITokenService
 {
+    private IRefreshLoginUserRepository _refreshTokens;
+
+    public TokenService(IRefreshLoginUserRepository refreshTokens)
+    {
+        _refreshTokens = refreshTokens;
+    }
+
     public string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -74,19 +82,26 @@ public class TokenService : ITokenService
         return principal;
     }
 
-    public void SaveRefreshToken(string username, string refreshToken)
+    public async Task SaveRefreshTokenAsync(string userName, string refreshToken)
     {
-        ListToken._refreshTokens.Add(new(username, refreshToken));
+        var refreshLoginUser = new RefreshLoginUser(userName, refreshToken);
+
+        await _refreshTokens.CreateAsync(refreshLoginUser);
     }
-    public string GetRefreshToken(string username)
+    public async Task<string?> GetRefreshTokenAsync(string userName)
     {
-        return ListToken._refreshTokens.FirstOrDefault(x => x.Item1 == username).Item2;
+        var refreshToken = await _refreshTokens.GetByUserNameAsync(userName);
+        return refreshToken;
     }
 
-    public void DeleteRefreshToken(string username)
+    public async void DeleteRefreshToken(string userName)
     {
-        var item = ListToken._refreshTokens.FirstOrDefault(x => x.Item1 == username);
-        ListToken._refreshTokens.Remove(item);
+        var refreshToken = await GetRefreshTokenAsync(userName);
+        if (refreshToken != null)
+        {
+            var item = await _refreshTokens.GetByUserNameAndRefreshTokenAsync(userName, refreshToken);
+            if (item != null)
+                _refreshTokens.Delete(item);
+        }
     }
-
 }

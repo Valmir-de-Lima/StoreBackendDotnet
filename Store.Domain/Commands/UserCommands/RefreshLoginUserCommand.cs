@@ -14,6 +14,7 @@ public class RefreshLoginUserCommand : Command, ICommand
 
     public void Validate()
     {
-        AddNotifications(new RefreshLoginUserContract(this));
+        AddNotifications(new RefreshLoginUserContract(
+            new RefreshLoginUser(Token, RefreshToken)));
     }
 }

@@ -43,6 +43,7 @@ public static class BuilderExtensions
 
         builder.Services.AddDbContext<StoreDataContext>(opt => opt.UseInMemoryDatabase(connectionString));
         builder.Services.AddTransient<IUserRepository, UserRepository>();
+        builder.Services.AddTransient<IRefreshLoginUserRepository, RefreshLoginUserRepository>();
         builder.Services.AddTransient<UserHandler, UserHandler>();
         builder.Services.AddTransient<ITokenService, TokenService>();
     }

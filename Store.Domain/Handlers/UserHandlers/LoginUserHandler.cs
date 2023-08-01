@@ -55,10 +55,8 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
         // Procedure for refresh token
         var refreshToken = _tokenService.GenerateRefreshToken();
 
-        if (_tokenService.GetRefreshToken(user.Link) != null)
-            _tokenService.DeleteRefreshToken(user.Link);
-
-        _tokenService.SaveRefreshToken(user.Link, refreshToken);
+        _tokenService.DeleteRefreshToken(user.Link);
+        await _tokenService.SaveRefreshTokenAsync(user.Link, refreshToken);
 
         return new CommandResult(true, new
         {

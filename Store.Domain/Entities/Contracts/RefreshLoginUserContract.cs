@@ -4,12 +4,12 @@ using Store.Domain.Commands.UserCommands;
 
 namespace Store.Domain.Entities.Contracts;
 
-public class RefreshLoginUserContract : Contract<RefreshLoginUserCommand>
+public class RefreshLoginUserContract : Contract<RefreshLoginUser>
 {
-    public RefreshLoginUserContract(RefreshLoginUserCommand command)
+    public RefreshLoginUserContract(RefreshLoginUser refreshLoginUser)
     {
         Requires()
-                .IsNotEmpty(command.Token, "RefreshLoginUserCommand.Token", "Informe o token")
-                .IsNotEmpty(command.RefreshToken, "RefreshLoginUserCommand.Token", "Informe o refreshToken");
+                .IsNotEmpty(refreshLoginUser.UserName, "RefreshLoginUser.UserName", "Informe o user name")
+                .IsNotEmpty(refreshLoginUser.RefreshToken, "RefreshLoginUser.Token", "Informe o refreshToken");
     }
 }

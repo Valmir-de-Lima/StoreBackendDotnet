@@ -73,12 +73,14 @@ public class MockTokenService : ITokenService
         return principal;
     }
 
-    public void SaveRefreshToken(string username, string refreshToken)
+    public async Task SaveRefreshTokenAsync(string username, string refreshToken)
     {
+        await Task.CompletedTask;
         ListToken._refreshTokens.Add(new(username, refreshToken));
     }
-    public string GetRefreshToken(string username)
+    public async Task<string?> GetRefreshTokenAsync(string username)
     {
+        await Task.CompletedTask;
         return ListToken._refreshTokens.FirstOrDefault(x => x.Item1 == username).Item2;
     }
 

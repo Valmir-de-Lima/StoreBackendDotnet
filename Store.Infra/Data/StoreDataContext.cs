@@ -12,9 +12,11 @@ public class StoreDataContext : DbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<RefreshLoginUser> RefreshLoginUsers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserMap());
+        modelBuilder.ApplyConfiguration(new RefreshLoginUserMap());
     }
 }

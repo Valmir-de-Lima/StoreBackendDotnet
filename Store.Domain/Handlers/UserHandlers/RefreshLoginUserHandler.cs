@@ -21,8 +21,6 @@ public class RefreshLoginUserHandler : Handler, IHandler<RefreshLoginUserCommand
 
     public async Task<ICommandResult> HandleAsync(RefreshLoginUserCommand command)
     {
-        await Task.CompletedTask;
-
         // Fail Fast Validations
         command.Validate();
         if (!command.IsValid)
@@ -33,7 +31,7 @@ public class RefreshLoginUserHandler : Handler, IHandler<RefreshLoginUserCommand
 
         var userClaims = _tokenService.GetClaimsFromExpiredToken(command.Token);
         var userName = userClaims.Identity!.Name;
-        var savedRefreshToken = _tokenService.GetRefreshToken(userName!);
+        var savedRefreshToken = await _tokenService.GetRefreshTokenAsync(userName!);
 
         // Query refreshToken valid
         if (savedRefreshToken != command.RefreshToken)
@@ -48,7 +46,7 @@ public class RefreshLoginUserHandler : Handler, IHandler<RefreshLoginUserCommand
         var newRefreshToken = _tokenService.GenerateRefreshToken();
 
         _tokenService.DeleteRefreshToken(userName!);
-        _tokenService.SaveRefreshToken(userName!, newRefreshToken);
+        await _tokenService.SaveRefreshTokenAsync(userName!, newRefreshToken);
 
 
         return new CommandResult(true, new
