@@ -20,7 +20,7 @@ public static class BuilderExtensions
 
     public static void ConfigureAuthentication(this WebApplicationBuilder builder)
     {
-        var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
+        var key = Encoding.UTF8.GetBytes(Configuration.JwtKey);
         builder.Services.AddAuthentication(x =>
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

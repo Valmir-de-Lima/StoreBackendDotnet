@@ -1,7 +1,5 @@
 using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
-using Store.Domain.Entities;
-using Store.Domain.Enums;
 using Store.Domain.Repositories.Interfaces;
 using Store.Domain.Services;
 using Store.Domain.ValueObjects;
@@ -42,7 +40,7 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
         // Query user exist
         if (user == null)
         {
-            AddNotification(command.Email, "Usuario não cadastrado");
+            AddNotification(command.Email, "Usuario ou senha inválidos");
             return new CommandResult(false, Notifications);
         }
 
@@ -54,9 +52,19 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
 
         var token = _tokenService.GenerateToken(user);
 
+        // Procedure for refresh token
+        var refreshToken = _tokenService.GenerateRefreshToken();
+
+        if (_tokenService.GetRefreshToken(user.Link) != null)
+            _tokenService.DeleteRefreshToken(user.Link);
+
+        _tokenService.SaveRefreshToken(user.Link, refreshToken);
+
         return new CommandResult(true, new
         {
-            token
+            userName = user.Link,
+            token,
+            refreshToken
         });
     }
 }

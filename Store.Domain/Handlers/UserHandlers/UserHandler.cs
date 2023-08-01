@@ -11,7 +11,9 @@ public class UserHandler : Handler,
     IHandler<CreateUserCommand>,
     IHandler<UpdateUserCommand>,
     IHandler<DeleteUserCommand>,
-    IHandler<LoginUserCommand>
+    IHandler<LoginUserCommand>,
+    IHandler<RefreshLoginUserCommand>
+
 {
     private readonly IUserRepository _repository;
     private readonly ITokenService _tokenService;
@@ -46,4 +48,10 @@ public class UserHandler : Handler,
     {
         return await new LoginUserHandler(_repository, _tokenService).HandleAsync(command);
     }
+
+    public async Task<ICommandResult> HandleAsync(RefreshLoginUserCommand command)
+    {
+        return await new RefreshLoginUserHandler(_repository, _tokenService).HandleAsync(command);
+    }
+
 }
