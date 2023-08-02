@@ -32,14 +32,21 @@ public class User : Entity
     public string Link { get; private set; } = "";
     public EType Type { get; private set; }
 
-    public void Update(string name, string passwordHash, EType type)
+    public void Update(EType type)
     {
-        Name = name;
-        PasswordHash = passwordHash;
         Type = type;
-        // Design by contracts
         AddNotifications(
             new CreateUserContract(this)
         );
     }
+
+    public void Update(string name, string passwordHash)
+    {
+        Name = name;
+        PasswordHash = passwordHash;
+        AddNotifications(
+            new CreateUserContract(this)
+        );
+    }
+
 }

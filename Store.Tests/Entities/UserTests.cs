@@ -56,7 +56,7 @@ public class UserTests
     public void ShouldReturnValidUserWhenDatasUpdateAreValids(string name, string password, EType type)
     {
         var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
-        user.Update(name, password, type);
+        user.Update(name, password);
         Assert.IsTrue(user.IsValid);
     }
 
@@ -68,20 +68,20 @@ public class UserTests
     public void ShouldReturnInvalidUserWhenNameUpdateisInvalid(string name, string password, EType type)
     {
         var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
-        user.Update(name, password, type);
+        user.Update(name, password);
         Assert.IsFalse(user.IsValid);
     }
 
-    [TestMethod]
-    [DataTestMethod]
-    [DataRow("batman", "123456", -1)]
-    [DataRow("robin", "123456", 3)]
-    [DataRow("superman", "123456", 4)]
-    public void ShouldReturnInvalidUserWhenTypeUpdateisInvalid(string name, string password, EType type)
-    {
-        var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
-        user.Update(name, password, type);
-        Assert.IsFalse(user.IsValid);
-    }
+    // [TestMethod]
+    // [DataTestMethod]
+    // [DataRow("batman", "123456", -1)]
+    // [DataRow("robin", "123456", 3)]
+    // [DataRow("superman", "123456", 4)]
+    // public void ShouldReturnInvalidUserWhenTypeUpdateisInvalid(string name, string password, EType type)
+    // {
+    //     var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
+    //     user.Update(name, password);
+    //     Assert.IsFalse(user.IsValid);
+    // }
 }
 

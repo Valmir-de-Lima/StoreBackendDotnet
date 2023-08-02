@@ -1,5 +1,6 @@
 using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
+using Store.Domain.Entities;
 using Store.Domain.Repositories.Interfaces;
 using Store.Domain.ValueObjects;
 using Store.Shared.Commands;
@@ -8,17 +9,17 @@ using Store.Shared.Handlers;
 
 namespace Store.Domain.Handlers.UserHandlers;
 
-public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
+public class CreateManagerHandler : Handler, IHandler<CreateManagerCommand>
 {
 
     private readonly IUserRepository _repository;
 
-    public UpdateUserHandler(IUserRepository repository)
+    public CreateManagerHandler(IUserRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
+    public async Task<ICommandResult> HandleAsync(CreateManagerCommand command)
     {
         // Fail Fast Validations
         command.Validate();
@@ -31,22 +32,22 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
         // Build Value Objects
         var email = new Email(command.Email);
 
-        // Get user repository
-        var user = await _repository.GetByEmailAsync(email);
-
-        // Query user exist
-        if (user == null)
+        // Query e-mail exist
+        if (await _repository.ExistsEmailAsync(email))
         {
-            AddNotification(command.Email, "Usuario não cadastrado");
+            AddNotification(command.Email, "Email já cadastrado");
             return new CommandResult(false, Notifications);
         }
 
         var passwordHash = PasswordHasher.Hash(command.Password);
 
-        user.Update(command.Name, passwordHash);
+        // Build entity
+        var user = new User(command.Name, email, passwordHash, command.Type);
 
+        user.Update(command.Type);
         // Save database
-        _repository.Update(user);
+        await _repository.CreateAsync(user);
+
 
         return new CommandResult(true, new UserCommandResult(user));
     }

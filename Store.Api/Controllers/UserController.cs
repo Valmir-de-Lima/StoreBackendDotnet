@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Handlers.UserHandlers;
@@ -66,6 +67,7 @@ public class UserController : ControllerBase
         }
     }
 
+    [Authorize]
     [Route("v1/users")]
     [HttpPut]
     public async Task<IActionResult> Update(
@@ -84,6 +86,27 @@ public class UserController : ControllerBase
             ));
         }
     }
+
+    [Authorize]
+    [Route("v1/users/type")]
+    [HttpPut]
+    public async Task<IActionResult> UpdateTypeUser(
+        [FromBody] UpdateTypeUserCommand command,
+        [FromServices] UserHandler handler
+    )
+    {
+        try
+        {
+            return Ok((CommandResult)await handler.HandleAsync(command));
+        }
+        catch
+        {
+            return StatusCode(500, new CommandResult(false,
+                "Erro ao acessar o banco de dados"
+            ));
+        }
+    }
+
 
     [Route("v1/users")]
     [HttpDelete]

@@ -9,7 +9,9 @@ namespace Store.Domain.Handlers.UserHandlers;
 
 public class UserHandler : Handler,
     IHandler<CreateUserCommand>,
+    IHandler<CreateManagerCommand>,
     IHandler<UpdateUserCommand>,
+    IHandler<UpdateTypeUserCommand>,
     IHandler<DeleteUserCommand>,
     IHandler<LoginUserCommand>,
     IHandler<RefreshLoginUserCommand>
@@ -29,10 +31,22 @@ public class UserHandler : Handler,
         return await new CreateUserHandler(_repository).HandleAsync(command);
     }
 
+    public async Task<ICommandResult> HandleAsync(CreateManagerCommand command)
+    {
+        return await new CreateManagerHandler(_repository).HandleAsync(command);
+    }
+
+
     public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
     {
         return await new UpdateUserHandler(_repository).HandleAsync(command);
     }
+
+    public async Task<ICommandResult> HandleAsync(UpdateTypeUserCommand command)
+    {
+        return await new UpdateTypeUserHandler(_repository).HandleAsync(command);
+    }
+
 
     public async Task<ICommandResult> HandleAsync(DeleteUserCommand command)
     {

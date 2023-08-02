@@ -1,6 +1,4 @@
 using Flunt.Validations;
-using Store.Domain.Commands.UserCommands;
-
 
 namespace Store.Domain.Entities.Contracts;
 

@@ -2,7 +2,9 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Store.Api.Controllers;
 using Store.Api.Services;
+using Store.Domain.Commands.UserCommands;
 using Store.Domain.Handlers.UserHandlers;
 using Store.Domain.Repositories.Interfaces;
 using Store.Domain.Services;
@@ -46,5 +48,14 @@ public static class BuilderExtensions
         builder.Services.AddTransient<IRefreshLoginUserRepository, RefreshLoginUserRepository>();
         builder.Services.AddTransient<UserHandler, UserHandler>();
         builder.Services.AddTransient<ITokenService, TokenService>();
+    }
+
+    public static CreateManagerCommand CreateManager(IConfiguration config)
+    {
+        var createManagerCommand = new CreateManagerCommand();
+
+        config.GetSection("Manager").Bind(createManagerCommand);
+
+        return createManagerCommand;
     }
 }
