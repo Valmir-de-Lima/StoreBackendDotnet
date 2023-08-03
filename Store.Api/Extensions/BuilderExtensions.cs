@@ -49,13 +49,4 @@ public static class BuilderExtensions
         builder.Services.AddTransient<UserHandler, UserHandler>();
         builder.Services.AddTransient<ITokenService, TokenService>();
     }
-
-    public static CreateManagerCommand CreateManager(IConfiguration config)
-    {
-        var createManagerCommand = new CreateManagerCommand();
-
-        config.GetSection("Manager").Bind(createManagerCommand);
-
-        return createManagerCommand;
-    }
 }

@@ -4,72 +4,51 @@ namespace Store.Tests.Handlers.UserHandlerTests;
 [TestCategory("Handlers")]
 public class LoginUserHandlersTests
 {
-    private readonly UserHandler _handler = new UserHandler(new MockUserRepository(), new MockTokenService());
+    private readonly UserHandler _handler = new(new MockUserRepository(), new MockTokenService());
+    private readonly LoginUserCommand _command = new();
+
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "123456")]
-    [DataRow("robin", "robin@wayne.com", "123456")]
-    [DataRow("superman", "superman@justiceleague.com", "123456")]
-    public async Task ShouldReturnTrueSuccessWhenDatasAreValids(string name, string addres, string password)
+    [DataRow("batman@wayne.com", "123456")]
+    [DataRow("robin@wayne.com", "123456")]
+    [DataRow("superman@justiceleague.com", "123456")]
+    public async Task ShouldReturnTrueSuccessWhenDatasAreValids(string addres, string password)
     {
-        var command = new LoginUserCommand();
-        command.Name = name;
-        command.Email = addres;
-        command.Password = password;
+        _command.Email = addres;
+        _command.Password = password;
 
-        var _result = (CommandResult)await _handler.HandleAsync(command);
+        var _result = (CommandResult)await _handler.HandleAsync(_command);
 
         Assert.IsTrue(_result.Success);
     }
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("ba", "batman@wayne.com", "123456")]
-    [DataRow("", "robin@wayne.com", "123456")]
-    [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456")]
-    public async Task ShouldReturnFalseSucessWhenNameIsInvalid(string name, string addres, string password)
+    [DataRow("batman@batman.com", "123456")]
+    [DataRow("robin@robin.com", "123456")]
+    [DataRow("superman@justice.com", "123456")]
+    public async Task ShouldReturnFalseSucessWhenEmailDontExists(string addres, string password)
     {
-        var command = new LoginUserCommand();
-        command.Name = name;
-        command.Email = addres;
-        command.Password = password;
+        _command.Email = addres;
+        _command.Password = password;
 
-        var _result = (CommandResult)await _handler.HandleAsync(command);
+        var _result = (CommandResult)await _handler.HandleAsync(_command);
 
         Assert.IsFalse(_result.Success);
     }
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@batman.com", "123456")]
-    [DataRow("robin", "robin@robin.com", "123456")]
-    [DataRow("superman", "superman@justice.com", "123456")]
-    public async Task ShouldReturnFalseSucessWhenEmailDontExists(string name, string addres, string password)
+    [DataRow("batman@wayne.com", "")]
+    [DataRow("robin@wayne.com", "123455")]
+    [DataRow("superman@justiceleague.com", "123456123456")]
+    public async Task ShouldReturnFalseSucessWhenPasswordDontMatch(string addres, string password)
     {
-        var command = new LoginUserCommand();
-        command.Name = name;
-        command.Email = addres;
-        command.Password = password;
+        _command.Email = addres;
+        _command.Password = password;
 
-        var _result = (CommandResult)await _handler.HandleAsync(command);
-
-        Assert.IsFalse(_result.Success);
-    }
-
-    [TestMethod]
-    [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "")]
-    [DataRow("robin", "robin@wayne.com", "123455")]
-    [DataRow("superman", "superman@justiceleague.com", "123456123456")]
-    public async Task ShouldReturnFalseSucessWhenPasswordDontMatch(string name, string addres, string password)
-    {
-        var command = new LoginUserCommand();
-        command.Name = name;
-        command.Email = addres;
-        command.Password = password;
-
-        var _result = (CommandResult)await _handler.HandleAsync(command);
+        var _result = (CommandResult)await _handler.HandleAsync(_command);
 
         Assert.IsFalse(_result.Success);
     }

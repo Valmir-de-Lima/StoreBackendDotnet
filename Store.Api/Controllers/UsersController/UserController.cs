@@ -5,12 +5,11 @@ using Store.Domain.Handlers.UserHandlers;
 using Store.Domain.Repositories.Interfaces;
 using Store.Shared.Commands;
 
-namespace Store.Api.Controllers;
+namespace Store.Api.Controllers.UsersController;
 
 public class UserController : ControllerBase
 {
-    [Route("v1/users")]
-    [HttpPost]
+    [HttpPost("v1/users")]
     public async Task<IActionResult> Create(
         [FromBody] CreateUserCommand command,
         [FromServices] UserHandler handler
@@ -28,8 +27,8 @@ public class UserController : ControllerBase
         }
     }
 
-    [Route("v1/users")]
-    [HttpGet]
+    [Authorize(Roles = Configuration.MANAGER)]
+    [HttpGet("v1/users")]
     public async Task<IActionResult> GetAll(
             [FromServices] IUserRepository repository,
             [FromQuery] int skip = 0,
@@ -48,12 +47,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [Route("v1/users/{link}")]
-    [HttpGet]
+    [Authorize]
+    [HttpGet("v1/users/{link}")]
     public async Task<IActionResult> GetByLink(
-        [FromServices] UserHandler handler,
-        [FromRoute] string link
-    )
+            [FromServices] UserHandler handler,
+            [FromRoute] string link
+        )
     {
         try
         {
@@ -68,8 +67,7 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
-    [Route("v1/users")]
-    [HttpPut]
+    [HttpPut("v1/users")]
     public async Task<IActionResult> Update(
         [FromBody] UpdateUserCommand command,
         [FromServices] UserHandler handler
@@ -87,12 +85,11 @@ public class UserController : ControllerBase
         }
     }
 
-    [Authorize]
-    [Route("v1/users/type")]
-    [HttpPut]
-    public async Task<IActionResult> UpdateTypeUser(
-        [FromBody] UpdateTypeUserCommand command,
-        [FromServices] UserHandler handler
+    [Authorize(Roles = Configuration.MANAGER)]
+    [HttpDelete("v1/users")]
+    public async Task<IActionResult> Delete(
+    [FromBody] DeleteUserCommand command,
+    [FromServices] UserHandler handler
     )
     {
         try
@@ -106,25 +103,4 @@ public class UserController : ControllerBase
             ));
         }
     }
-
-
-    [Route("v1/users")]
-    [HttpDelete]
-    public async Task<IActionResult> Delete(
-    [FromBody] DeleteUserCommand command,
-    [FromServices] UserHandler handler
-)
-    {
-        try
-        {
-            return Ok((CommandResult)await handler.HandleAsync(command));
-        }
-        catch
-        {
-            return StatusCode(500, new CommandResult(false,
-                "Erro ao acessar o banco de dados"
-            ));
-        }
-    }
-
 }
