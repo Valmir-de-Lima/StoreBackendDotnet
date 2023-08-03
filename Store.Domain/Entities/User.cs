@@ -49,4 +49,11 @@ public class User : Entity
         );
     }
 
+    public void Update(string name)
+    {
+        Name = name;
+        AddNotifications(
+            new CreateUserContract(this)
+        );
+    }
 }

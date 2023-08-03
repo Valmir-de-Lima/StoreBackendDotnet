@@ -2,6 +2,7 @@ using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Enums;
 using Store.Domain.Repositories.Interfaces;
+using Store.Domain.Services;
 using Store.Domain.ValueObjects;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
@@ -9,17 +10,19 @@ using Store.Shared.Handlers;
 
 namespace Store.Domain.Handlers.UserHandlers;
 
-public class UpdateTypeUserHandler : Handler, IHandler<UpdateTypeUserCommand>
+public class UpdateNameUserHandler : Handler, IHandler<UpdateNameUserCommand>
 {
 
     private readonly IUserRepository _repository;
+    private readonly ITokenService _tokenService;
 
-    public UpdateTypeUserHandler(IUserRepository repository)
+    public UpdateNameUserHandler(IUserRepository repository, ITokenService tokenService)
     {
         _repository = repository;
+        _tokenService = tokenService;
     }
 
-    public async Task<ICommandResult> HandleAsync(UpdateTypeUserCommand command)
+    public async Task<ICommandResult> HandleAsync(UpdateNameUserCommand command)
     {
         // Fail Fast Validations
         command.Validate();
@@ -29,19 +32,25 @@ public class UpdateTypeUserHandler : Handler, IHandler<UpdateTypeUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        var email = new Email(command.Email);
+        var claims = _tokenService.GetClaimsFromExpiredToken(command.Token);
+        var link = claims.Identity!.Name;
 
+        if (link == null)
+        {
+            AddNotification(link, "Identificacao do usuário não disponível");
+            return new CommandResult(false, Notifications);
+        }
         // Get user repository
-        var user = await _repository.GetByEmailAsync(email);
+        var user = await _repository.GetByLinkAsync(link);
 
         // Query user exist
         if (user == null)
         {
-            AddNotification(command.Email, "Usuário não cadastrado");
+            AddNotification(link, "Usuário não cadastrado");
             return new CommandResult(false, Notifications);
         }
 
-        user.Update((EType)command.Type);
+        user.Update(command.Name);
 
         // Save database
         _repository.Update(user);

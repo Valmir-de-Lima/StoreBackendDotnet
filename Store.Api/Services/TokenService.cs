@@ -11,7 +11,7 @@ namespace Store.Api.Services;
 
 public class TokenService : ITokenService
 {
-    private IRefreshLoginUserRepository _refreshTokens;
+    private readonly IRefreshLoginUserRepository _refreshTokens;
 
     public TokenService(IRefreshLoginUserRepository refreshTokens)
     {

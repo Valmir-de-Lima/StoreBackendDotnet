@@ -8,18 +8,14 @@ namespace Store.Domain.Commands.UserCommands;
 
 public class UpdateTypeUserCommand : Command, ICommand
 {
-    public string ManagerEmail { get; set; } = "";
-    public string ManagerPassword { get; set; } = "";
-    public string EmployeeEmail { get; set; } = "";
-    public int EmployeeType { get; set; }
+    public string Email { get; set; } = "";
+    public int Type { get; set; }
 
     public void Validate()
     {
-        var managerEmail = new Email(ManagerEmail);
-        var employeeEmail = new Email(EmployeeEmail);
+        var employeeEmail = new Email(Email);
         AddNotifications(
-            new UpdateTypeUserContract((EType)EmployeeType),
-            managerEmail,
+            new UpdateTypeUserContract((EType)Type),
             employeeEmail
         );
     }

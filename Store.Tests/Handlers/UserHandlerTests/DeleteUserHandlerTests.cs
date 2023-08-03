@@ -4,7 +4,7 @@ namespace Store.Tests.Handlers.UserHandlerTests;
 [TestCategory("Handlers")]
 public class DeleteUserHandlersTests
 {
-    private readonly UserHandler _handler = new UserHandler(new MockUserRepository(), new MockTokenService());
+    private readonly UserHandler _handler = new(new MockUserRepository(), new MockTokenService());
 
     [TestMethod]
     [DataTestMethod]
@@ -15,7 +15,7 @@ public class DeleteUserHandlersTests
     {
         var command = new DeleteUserCommand();
         command.Email = addres;
-        command.PasswordHash = password;
+        command.Password = password;
 
         var _result = (CommandResult)await _handler.HandleAsync(command);
 
@@ -31,7 +31,7 @@ public class DeleteUserHandlersTests
     {
         var command = new DeleteUserCommand();
         command.Email = addres;
-        command.PasswordHash = password;
+        command.Password = password;
 
         var _result = (CommandResult)await _handler.HandleAsync(command);
 

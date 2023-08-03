@@ -8,7 +8,7 @@ namespace Store.Domain.Commands.UserCommands;
 public class DeleteUserCommand : Command, ICommand
 {
     public string Email { get; set; } = "";
-    public string PasswordHash { get; set; } = "";
+    public string Password { get; set; } = "";
 
     public void Validate()
     {

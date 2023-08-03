@@ -4,7 +4,7 @@ namespace Store.Tests.Commands.UserCommandTests;
 [TestCategory("Commands")]
 public class DeleteUserCommandTests
 {
-    private DeleteUserCommand _command = new();
+    private readonly DeleteUserCommand _command = new();
 
     [TestMethod]
     [DataTestMethod]
@@ -14,7 +14,7 @@ public class DeleteUserCommandTests
     public void ShouldReturnValidCommandWhenEmailIsValid(string addres, string password)
     {
         _command.Email = addres;
-        _command.PasswordHash = password;
+        _command.Password = password;
 
         _command.Validate();
         Assert.IsTrue(_command.IsValid);
@@ -28,7 +28,7 @@ public class DeleteUserCommandTests
     public void ShouldReturnInvalidCommandWhenEmailIsInvalid(string addres, string password)
     {
         _command.Email = addres;
-        _command.PasswordHash = password;
+        _command.Password = password;
 
         _command.Validate();
         Assert.IsFalse(_command.IsValid);
