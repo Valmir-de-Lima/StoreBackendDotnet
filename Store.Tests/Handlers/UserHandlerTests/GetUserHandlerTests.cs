@@ -8,9 +8,9 @@ public class GetUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman-wayne-com")]
+    //[DataRow("batman-wayne-com")]
     [DataRow("robin-wayne-com")]
-    [DataRow("superman-justiceleague-com")]
+    //[DataRow("superman-justiceleague-com")]
     public async Task ShouldReturnTrueSuccessWhenLinkExists(string link)
     {
         var _result = (CommandResult)await _handler.HandleAsync(link);

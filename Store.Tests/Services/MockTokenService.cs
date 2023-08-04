@@ -10,6 +10,12 @@ namespace Store.Tests.Services;
 public class MockTokenService : ITokenService
 {
     private ClaimsPrincipal _claimsPrincipal = new();
+
+    public MockTokenService()
+    {
+        _claimsPrincipal = GetClaimsFromToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InJvYmluLXdheW5lLWNvbSIsInJvbGUiOiJDdXN0b21lciIsIm5iZiI6MTY5MTE3MjE4MCwiZXhwIjoxNjkxMjAwOTgwLCJpYXQiOjE2OTExNzIxODB9.FZS3Qy7tWSteHNIEV9UR2OVF-aeIRdrWyvOv3C7l8-c");
+    }
+
     public string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
