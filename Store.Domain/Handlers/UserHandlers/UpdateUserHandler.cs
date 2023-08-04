@@ -1,6 +1,8 @@
 using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
+using Store.Domain.Enums;
 using Store.Domain.Repositories.Interfaces;
+using Store.Domain.Services;
 using Store.Domain.ValueObjects;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
@@ -12,10 +14,12 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
 {
 
     private readonly IUserRepository _repository;
+    private readonly ITokenService _tokenService;
 
-    public UpdateUserHandler(IUserRepository repository)
+    public UpdateUserHandler(IUserRepository repository, ITokenService tokenService)
     {
         _repository = repository;
+        _tokenService = tokenService;
     }
 
     public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
@@ -28,22 +32,25 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        // Build Value Objects
-        var email = new Email(command.Email);
+        var claims = _tokenService.GetUserClaims();
+        var link = claims.Identity!.Name;
 
+        if (link == null)
+        {
+            AddNotification(link, "Identificacao do usuário não disponível");
+            return new CommandResult(false, Notifications);
+        }
         // Get user repository
-        var user = await _repository.GetByEmailAsync(email);
+        var user = await _repository.GetByLinkAsync(link);
 
         // Query user exist
         if (user == null)
         {
-            AddNotification(command.Email, "Usuario não cadastrado");
+            AddNotification(link, "Usuário não cadastrado");
             return new CommandResult(false, Notifications);
         }
 
-        var passwordHash = PasswordHasher.Hash(command.Password);
-
-        user.Update(command.Name, passwordHash);
+        user.Update(command.Name);
 
         // Save database
         _repository.Update(user);

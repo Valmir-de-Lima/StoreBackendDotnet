@@ -50,25 +50,25 @@ public class UserTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "123456", EType.Manager)]
-    [DataRow("robin", "123456", EType.Employee)]
-    [DataRow("superman", "123456", EType.Customer)]
-    public void ShouldReturnValidUserWhenDatasUpdateAreValids(string name, string password, EType type)
+    [DataRow("batman")]
+    [DataRow("robin")]
+    [DataRow("superman")]
+    public void ShouldReturnValidUserWhenDatasUpdateAreValids(string name)
     {
         var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
-        user.Update(name, password);
+        user.Update(name);
         Assert.IsTrue(user.IsValid);
     }
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("ba", "123456", EType.Manager)]
-    [DataRow("", "123456", EType.Employee)]
-    [DataRow("superman superman superman superman superman superman", "123456", EType.Customer)]
-    public void ShouldReturnInvalidUserWhenNameUpdateisInvalid(string name, string password, EType type)
+    [DataRow("ba")]
+    [DataRow("")]
+    [DataRow("superman superman superman superman superman superman")]
+    public void ShouldReturnInvalidUserWhenNameUpdateisInvalid(string name)
     {
         var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
-        user.Update(name, password);
+        user.Update(name);
         Assert.IsFalse(user.IsValid);
     }
 

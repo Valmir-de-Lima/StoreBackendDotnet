@@ -1,28 +1,27 @@
 using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
-using Store.Domain.Enums;
 using Store.Domain.Repositories.Interfaces;
-using Store.Domain.Services;
 using Store.Domain.ValueObjects;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
 using Store.Shared.Handlers;
+using Store.Domain.Services;
 
 namespace Store.Domain.Handlers.UserHandlers;
 
-public class UpdateNameUserHandler : Handler, IHandler<UpdateNameUserCommand>
+public class UpdatePasswordUserHandler : Handler, IHandler<UpdatePasswordUserCommand>
 {
 
     private readonly IUserRepository _repository;
     private readonly ITokenService _tokenService;
 
-    public UpdateNameUserHandler(IUserRepository repository, ITokenService tokenService)
+    public UpdatePasswordUserHandler(IUserRepository repository, ITokenService tokenService)
     {
         _repository = repository;
         _tokenService = tokenService;
     }
 
-    public async Task<ICommandResult> HandleAsync(UpdateNameUserCommand command)
+    public async Task<ICommandResult> HandleAsync(UpdatePasswordUserCommand command)
     {
         // Fail Fast Validations
         command.Validate();
@@ -50,7 +49,15 @@ public class UpdateNameUserHandler : Handler, IHandler<UpdateNameUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        user.Update(command.Name);
+        if (!PasswordHasher.Verify(user.PasswordHash, command.OldPassword))
+        {
+            AddNotification(command.OldPassword, "Usuario ou senha inválidos");
+            return new CommandResult(false, Notifications);
+        }
+
+        var passwordHash = PasswordHasher.Hash(command.NewPassword);
+
+        user.UpdatePassword(passwordHash);
 
         // Save database
         _repository.Update(user);

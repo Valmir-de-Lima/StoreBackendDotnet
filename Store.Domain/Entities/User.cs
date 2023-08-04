@@ -40,9 +40,8 @@ public class User : Entity
         );
     }
 
-    public void Update(string name, string passwordHash)
+    public void UpdatePassword(string passwordHash)
     {
-        Name = name;
         PasswordHash = passwordHash;
         AddNotifications(
             new CreateUserContract(this)

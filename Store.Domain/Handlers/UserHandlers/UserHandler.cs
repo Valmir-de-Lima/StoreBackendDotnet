@@ -11,7 +11,7 @@ public class UserHandler : Handler,
     IHandler<CreateUserCommand>,
     IHandler<CreateManagerCommand>,
     IHandler<UpdateUserCommand>,
-    IHandler<UpdateNameUserCommand>,
+    IHandler<UpdatePasswordUserCommand>,
     IHandler<UpdateTypeUserCommand>,
     IHandler<DeleteUserCommand>,
     IHandler<LoginUserCommand>,
@@ -36,15 +36,17 @@ public class UserHandler : Handler,
     {
         return await new CreateManagerHandler(_repository).HandleAsync(command);
     }
-
-
+    public async Task<ICommandResult> HandleAsync(string command)
+    {
+        return await new GetUserHandler(_repository, _tokenService).HandleAsync(command);
+    }
     public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
     {
-        return await new UpdateUserHandler(_repository).HandleAsync(command);
+        return await new UpdateUserHandler(_repository, _tokenService).HandleAsync(command);
     }
-    public async Task<ICommandResult> HandleAsync(UpdateNameUserCommand command)
+    public async Task<ICommandResult> HandleAsync(UpdatePasswordUserCommand command)
     {
-        return await new UpdateNameUserHandler(_repository, _tokenService).HandleAsync(command);
+        return await new UpdatePasswordUserHandler(_repository, _tokenService).HandleAsync(command);
     }
 
     public async Task<ICommandResult> HandleAsync(UpdateTypeUserCommand command)
@@ -57,11 +59,6 @@ public class UserHandler : Handler,
         return await new DeleteUserHandler(_repository).HandleAsync(command);
     }
 
-    public async Task<ICommandResult> HandleAsync(string command)
-    {
-        return await new GetUserHandler(_repository).HandleAsync(command);
-    }
-
     public async Task<ICommandResult> HandleAsync(LoginUserCommand command)
     {
         return await new LoginUserHandler(_repository, _tokenService).HandleAsync(command);
@@ -71,5 +68,4 @@ public class UserHandler : Handler,
     {
         return await new RefreshLoginUserHandler(_repository, _tokenService).HandleAsync(command);
     }
-
 }

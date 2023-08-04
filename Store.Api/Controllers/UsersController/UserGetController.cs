@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Handlers.UserHandlers;
 using Store.Domain.Repositories.Interfaces;
+using Store.Domain.Services;
 using Store.Shared.Commands;
 
 namespace Store.Api.Controllers.UsersController;
@@ -32,12 +33,14 @@ public class UserGetController : ControllerBase
     [Authorize]
     [HttpGet("v1/users/{link}")]
     public async Task<IActionResult> GetByLink(
+            [FromRoute] string link,
             [FromServices] UserHandler handler,
-            [FromRoute] string link
-        )
+            [FromServices] ITokenService tokenService
+    )
     {
         try
         {
+            tokenService.LoadClaimsPrincipal(User.Claims);
             return Ok((CommandResult)await handler.HandleAsync(link));
         }
         catch
