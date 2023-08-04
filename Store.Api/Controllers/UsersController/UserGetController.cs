@@ -40,6 +40,7 @@ public class UserGetController : ControllerBase
     {
         try
         {
+
             tokenService.LoadClaimsPrincipal(User.Claims);
             return Ok((CommandResult)await handler.HandleAsync(link));
         }

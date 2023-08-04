@@ -42,11 +42,11 @@ public class UserHandler : Handler,
     }
     public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
     {
-        return await new UpdateUserHandler(_repository, _tokenService).HandleAsync(command);
+        return await new UpdateUserHandler(_repository).HandleAsync(command);
     }
     public async Task<ICommandResult> HandleAsync(UpdatePasswordUserCommand command)
     {
-        return await new UpdatePasswordUserHandler(_repository, _tokenService).HandleAsync(command);
+        return await new UpdatePasswordUserHandler(_repository).HandleAsync(command);
     }
 
     public async Task<ICommandResult> HandleAsync(UpdateTypeUserCommand command)

@@ -13,12 +13,10 @@ public class UpdatePasswordUserHandler : Handler, IHandler<UpdatePasswordUserCom
 {
 
     private readonly IUserRepository _repository;
-    private readonly ITokenService _tokenService;
 
-    public UpdatePasswordUserHandler(IUserRepository repository, ITokenService tokenService)
+    public UpdatePasswordUserHandler(IUserRepository repository)
     {
         _repository = repository;
-        _tokenService = tokenService;
     }
 
     public async Task<ICommandResult> HandleAsync(UpdatePasswordUserCommand command)
@@ -31,7 +29,7 @@ public class UpdatePasswordUserHandler : Handler, IHandler<UpdatePasswordUserCom
             return new CommandResult(false, Notifications);
         }
 
-        var claims = _tokenService.GetUserClaims();
+        var claims = command.GetUserClaims();
         var link = claims.Identity!.Name;
 
         if (link == null)

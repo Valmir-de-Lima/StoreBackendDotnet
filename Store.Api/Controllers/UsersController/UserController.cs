@@ -32,13 +32,12 @@ public class UserController : ControllerBase
     [HttpPut("v1/users")]
     public async Task<IActionResult> UpdateUser(
     [FromBody] UpdateUserCommand command,
-    [FromServices] UserHandler handler,
-    [FromServices] ITokenService tokenService
+    [FromServices] UserHandler handler
     )
     {
         try
         {
-            tokenService.LoadClaimsPrincipal(User.Claims);
+            command.SetUser(User);
             return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch
@@ -73,13 +72,12 @@ public class UserController : ControllerBase
     [HttpPut("v1/users/password")]
     public async Task<IActionResult> UpdatePasswordUser(
     [FromBody] UpdatePasswordUserCommand command,
-    [FromServices] UserHandler handler,
-    [FromServices] ITokenService tokenService
+    [FromServices] UserHandler handler
     )
     {
         try
         {
-            tokenService.LoadClaimsPrincipal(User.Claims);
+            command.SetUser(User);
             return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch

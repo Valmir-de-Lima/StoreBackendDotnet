@@ -14,12 +14,10 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
 {
 
     private readonly IUserRepository _repository;
-    private readonly ITokenService _tokenService;
 
-    public UpdateUserHandler(IUserRepository repository, ITokenService tokenService)
+    public UpdateUserHandler(IUserRepository repository)
     {
         _repository = repository;
-        _tokenService = tokenService;
     }
 
     public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
@@ -32,7 +30,7 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        var claims = _tokenService.GetUserClaims();
+        var claims = command.GetUserClaims();
         var link = claims.Identity!.Name;
 
         if (link == null)
