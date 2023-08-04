@@ -11,6 +11,7 @@ public class UserHandler : Handler,
     IHandler<CreateUserCommand>,
     IHandler<CreateManagerCommand>,
     IHandler<UpdateUserCommand>,
+    IHandler<UpdateNameUserCommand>,
     IHandler<UpdateTypeUserCommand>,
     IHandler<DeleteUserCommand>,
     IHandler<LoginUserCommand>,
@@ -41,12 +42,15 @@ public class UserHandler : Handler,
     {
         return await new UpdateUserHandler(_repository).HandleAsync(command);
     }
+    public async Task<ICommandResult> HandleAsync(UpdateNameUserCommand command)
+    {
+        return await new UpdateNameUserHandler(_repository, _tokenService).HandleAsync(command);
+    }
 
     public async Task<ICommandResult> HandleAsync(UpdateTypeUserCommand command)
     {
         return await new UpdateTypeUserHandler(_repository).HandleAsync(command);
     }
-
 
     public async Task<ICommandResult> HandleAsync(DeleteUserCommand command)
     {

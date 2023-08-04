@@ -32,7 +32,7 @@ public class UpdateNameUserHandler : Handler, IHandler<UpdateNameUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        var claims = _tokenService.GetClaimsFromExpiredToken(command.Token);
+        var claims = _tokenService.GetUserClaims();
         var link = claims.Identity!.Name;
 
         if (link == null)

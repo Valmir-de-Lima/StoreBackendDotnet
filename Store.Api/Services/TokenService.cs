@@ -6,12 +6,14 @@ using Microsoft.IdentityModel.Tokens;
 using Store.Domain.Services;
 using System.Security.Cryptography;
 using Store.Domain.Repositories.Interfaces;
+using System.Security.Principal;
 
 namespace Store.Api.Services;
 
 public class TokenService : ITokenService
 {
     private readonly IRefreshLoginUserRepository _refreshTokens;
+    public static ClaimsPrincipal _claimsPrincipal = new();
 
     public TokenService(IRefreshLoginUserRepository refreshTokens)
     {
@@ -61,7 +63,7 @@ public class TokenService : ITokenService
         return Convert.ToBase64String(randomNumber);
     }
 
-    public ClaimsPrincipal GetClaimsFromExpiredToken(string token)
+    public ClaimsPrincipal GetClaimsFromToken(string token)
     {
         var tokenValidationParameters = new TokenValidationParameters
         {
@@ -104,4 +106,15 @@ public class TokenService : ITokenService
                 _refreshTokens.Delete(item);
         }
     }
+
+    public void LoadClaimsPrincipal(IEnumerable<Claim> claims)
+    {
+        _claimsPrincipal = GetClaimsFromToken(GenerateToken(claims));
+    }
+
+    public ClaimsPrincipal GetUserClaims()
+    {
+        return _claimsPrincipal;
+    }
+
 }

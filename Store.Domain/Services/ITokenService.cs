@@ -7,8 +7,10 @@ public interface ITokenService
     string GenerateToken(User user);
     string GenerateToken(IEnumerable<Claim> claims);
     string GenerateRefreshToken();
-    ClaimsPrincipal GetClaimsFromExpiredToken(string token);
+    ClaimsPrincipal GetClaimsFromToken(string token);
     Task SaveRefreshTokenAsync(string userName, string refreshToken);
     Task<string?> GetRefreshTokenAsync(string userName);
     void DeleteRefreshToken(string userName);
+    void LoadClaimsPrincipal(IEnumerable<Claim> claimsPrincipal);
+    ClaimsPrincipal GetUserClaims();
 }

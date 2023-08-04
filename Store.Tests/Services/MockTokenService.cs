@@ -9,6 +9,7 @@ namespace Store.Tests.Services;
 
 public class MockTokenService : ITokenService
 {
+    private ClaimsPrincipal _claimsPrincipal = new();
     public string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -52,7 +53,7 @@ public class MockTokenService : ITokenService
         return Convert.ToBase64String(randomNumber);
     }
 
-    public ClaimsPrincipal GetClaimsFromExpiredToken(string token)
+    public ClaimsPrincipal GetClaimsFromToken(string token)
     {
         var tokenValidationParameters = new TokenValidationParameters
         {
@@ -89,5 +90,16 @@ public class MockTokenService : ITokenService
         var item = ListToken._refreshTokens.FirstOrDefault(x => x.Item1 == username);
         ListToken._refreshTokens.Remove(item);
     }
+
+    public void LoadClaimsPrincipal(IEnumerable<Claim> claims)
+    {
+        _claimsPrincipal = GetClaimsFromToken(GenerateToken(claims));
+    }
+
+    public ClaimsPrincipal GetUserClaims()
+    {
+        return _claimsPrincipal;
+    }
+
 }
 

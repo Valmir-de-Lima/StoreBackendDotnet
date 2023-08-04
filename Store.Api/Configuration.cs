@@ -9,7 +9,7 @@ public static class Configuration
     public const string CUSTUMER = "Custumer";
     public static string JwtKey = "";
 
-    public static CreateManagerCommand CreateManager(IConfiguration config)
+    public static CreateManagerCommand CreatePrimaryManager(IConfiguration config)
     {
         var createManagerCommand = new CreateManagerCommand();
 

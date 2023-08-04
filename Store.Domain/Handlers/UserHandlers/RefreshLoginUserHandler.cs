@@ -29,7 +29,7 @@ public class RefreshLoginUserHandler : Handler, IHandler<RefreshLoginUserCommand
             return new CommandResult(false, Notifications);
         }
 
-        var userClaims = _tokenService.GetClaimsFromExpiredToken(command.Token);
+        var userClaims = _tokenService.GetClaimsFromToken(command.Token);
         var userName = userClaims.Identity!.Name;
         var savedRefreshToken = await _tokenService.GetRefreshTokenAsync(userName!);
 
