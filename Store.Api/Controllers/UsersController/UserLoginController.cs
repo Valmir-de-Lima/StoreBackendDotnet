@@ -44,4 +44,22 @@ public class UserLoginController : ControllerBase
             ));
         }
     }
+
+    [HttpPost("v1/users/login/register")]
+    public async Task<IActionResult> Register(
+    [FromBody] RegisterUserCommand command,
+    [FromServices] UserHandler handler
+    )
+    {
+        try
+        {
+            return Ok((CommandResult)await handler.HandleAsync(command));
+        }
+        catch
+        {
+            return StatusCode(500, new CommandResult(false,
+                "Erro ao efetuar o login."
+            ));
+        }
+    }
 }

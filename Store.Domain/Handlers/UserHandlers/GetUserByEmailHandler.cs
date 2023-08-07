@@ -10,17 +10,17 @@ using Store.Shared.Handlers;
 
 namespace Store.Domain.Handlers.UserHandlers;
 
-public class GetUserHandler : Handler
+public class GetUserByEmailHandler : Handler
 {
 
     private readonly IUserRepository _repository;
 
-    public GetUserHandler(IUserRepository repository)
+    public GetUserByEmailHandler(IUserRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<ICommandResult> HandleAsync(GetUserCommand command)
+    public async Task<ICommandResult> HandleAsync(GetUserByEmailCommand command)
     {
         // Fail Fast Validations
         command.Validate();
@@ -31,21 +31,22 @@ public class GetUserHandler : Handler
         }
 
         var linkToken = command.GetUserName();
+        var linkCommand = command.Email.Replace("@", "-").Replace(".", "-");
         var manager = command.GetUserType();
 
-        if ((linkToken != command.Link) && (manager != EType.Manager))
+        if ((linkToken != linkCommand) && (manager != EType.Manager))
         {
-            AddNotification(command.Link, "Informação indisponível");
+            AddNotification(command.Email, "Informação indisponível");
             return new CommandResult(false, Notifications);
         }
 
         // Get user repository
-        var user = await _repository.GetByLinkAsync(command.Link);
+        var user = await _repository.GetByEmailAsync(new Email(command.Email));
 
         // Query user exist
         if (user == null)
         {
-            AddNotification(command.Link, "Usuario não cadastrado");
+            AddNotification(command.Email, "Usuario não cadastrado");
             return new CommandResult(false, Notifications);
         }
 

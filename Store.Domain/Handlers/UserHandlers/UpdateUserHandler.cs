@@ -30,8 +30,7 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        var claims = command.GetUserClaims();
-        var link = claims.Identity!.Name;
+        var link = command.GetUserName();
 
         if (link == null)
         {

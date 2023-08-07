@@ -6,5 +6,5 @@ namespace Store.Domain.Commands.UserCommands;
 
 public class CreateManagerCommand : CreateUserCommand, ICommand
 {
-    new public EType Type { get; private set; } = EType.Manager;
+    public EType Type { get; private set; } = EType.Manager;
 }

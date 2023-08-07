@@ -18,6 +18,9 @@ public static class BuilderExtensions
     public static void LoadConfiguration(this WebApplicationBuilder builder)
     {
         Configuration.JwtKey = builder.Configuration.GetValue<string>("JwtKey")!;
+        var smtp = new Configuration.SmtpConfiguration();
+        builder.Configuration.GetSection("Smtp").Bind(smtp);
+        Configuration.Smtp = smtp;
     }
 
     public static void ConfigureAuthentication(this WebApplicationBuilder builder)
@@ -48,5 +51,6 @@ public static class BuilderExtensions
         builder.Services.AddTransient<IRefreshLoginUserRepository, RefreshLoginUserRepository>();
         builder.Services.AddTransient<UserHandler, UserHandler>();
         builder.Services.AddTransient<ITokenService, TokenService>();
+        builder.Services.AddTransient<IEmailService, EmailService>();
     }
 }

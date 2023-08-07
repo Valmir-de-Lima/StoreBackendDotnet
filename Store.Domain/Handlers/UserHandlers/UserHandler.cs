@@ -8,6 +8,7 @@ using Store.Shared.Handlers;
 namespace Store.Domain.Handlers.UserHandlers;
 
 public class UserHandler : Handler,
+    IHandler<RegisterUserCommand>,
     IHandler<CreateUserCommand>,
     IHandler<CreateManagerCommand>,
     IHandler<UpdateUserCommand>,
@@ -15,16 +16,24 @@ public class UserHandler : Handler,
     IHandler<UpdateTypeUserCommand>,
     IHandler<DeleteUserCommand>,
     IHandler<LoginUserCommand>,
+    IHandler<GetUserByEmailCommand>,
+    IHandler<GetUserCommand>,
     IHandler<RefreshLoginUserCommand>
 
 {
     private readonly IUserRepository _repository;
     private readonly ITokenService _tokenService;
+    private readonly IEmailService _emailService;
 
-    public UserHandler(IUserRepository repository, ITokenService tokenService)
+    public UserHandler(IUserRepository repository, ITokenService tokenService, IEmailService emailService)
     {
         _repository = repository;
         _tokenService = tokenService;
+        _emailService = emailService;
+    }
+    public async Task<ICommandResult> HandleAsync(RegisterUserCommand command)
+    {
+        return await new RegisterUserHandler(_repository, _emailService).HandleAsync(command);
     }
 
     public async Task<ICommandResult> HandleAsync(CreateUserCommand command)
@@ -36,10 +45,15 @@ public class UserHandler : Handler,
     {
         return await new CreateManagerHandler(_repository).HandleAsync(command);
     }
-    public async Task<ICommandResult> HandleAsync(string command)
+    public async Task<ICommandResult> HandleAsync(GetUserCommand command)
     {
-        return await new GetUserHandler(_repository, _tokenService).HandleAsync(command);
+        return await new GetUserHandler(_repository).HandleAsync(command);
     }
+    public async Task<ICommandResult> HandleAsync(GetUserByEmailCommand command)
+    {
+        return await new GetUserByEmailHandler(_repository).HandleAsync(command);
+    }
+
     public async Task<ICommandResult> HandleAsync(UpdateUserCommand command)
     {
         return await new UpdateUserHandler(_repository).HandleAsync(command);

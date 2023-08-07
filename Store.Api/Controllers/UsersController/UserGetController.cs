@@ -34,15 +34,14 @@ public class UserGetController : ControllerBase
     [HttpGet("v1/users/{link}")]
     public async Task<IActionResult> GetByLink(
             [FromRoute] string link,
-            [FromServices] UserHandler handler,
-            [FromServices] ITokenService tokenService
+            [FromServices] UserHandler handler
     )
     {
         try
         {
-
-            tokenService.LoadClaimsPrincipal(User.Claims);
-            return Ok((CommandResult)await handler.HandleAsync(link));
+            var command = new GetUserCommand(link);
+            command.SetUser(User);
+            return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch
         {
@@ -51,5 +50,26 @@ public class UserGetController : ControllerBase
             ));
         }
     }
+
+    [Authorize]
+    [HttpGet("v1/users/email")]
+    public async Task<IActionResult> GetByEmail(
+        [FromBody] GetUserByEmailCommand command,
+        [FromServices] UserHandler handler
+)
+    {
+        try
+        {
+            command.SetUser(User);
+            return Ok((CommandResult)await handler.HandleAsync(command));
+        }
+        catch
+        {
+            return StatusCode(500, new CommandResult(false,
+                "Erro ao acessar o banco de dados"
+            ));
+        }
+    }
+
 }
 
