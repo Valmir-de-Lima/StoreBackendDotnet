@@ -49,9 +49,9 @@ public class RegisterUserHandler : Handler, IHandler<RegisterUserCommand>
         var user = new User(command.Name, email, passwordHash, EType.Customer);
 
         // Send user email
-        if (!_emailService.Send(command.Name, command.Email, "Bem vindo a Loja!", FormatEmailBody(user)))
+        if (!_emailService.Send(command.Name, command.Email, "Bem vindo a Loja!", FormatEmailBody(user, command.GetUrlOfSite())))
         {
-            AddNotification(FormatEmailBody(user), "Não foi possível enviar o email para registro");
+            AddNotification(command.GetUrlOfSite(), "Não foi possível enviar o email para registro");
             return new CommandResult(false, Notifications);
         }
 
@@ -61,10 +61,10 @@ public class RegisterUserHandler : Handler, IHandler<RegisterUserCommand>
         return new CommandResult(true, new UserCommandResult(user));
     }
 
-    private string FormatEmailBody(User user)
+    private string FormatEmailBody(User user, string urlOfSite)
     {
         var body = $"Olá, <strong>{user.Name}</strong>! "
-        + "<p>Clique <a href=\"https://localhost:7051/v1/users/login/active/" + user.Id + "\">aqui</a> para ativar a sua conta.</p>";
+        + "<p>Clique <a href=\"" + urlOfSite + "/v1/users/login/active/" + user.Id + "\">aqui</a> para ativar a sua conta.</p>";
         return body;
     }
 }

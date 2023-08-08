@@ -4,7 +4,7 @@ namespace Store.Tests.Handlers.UserHandlerTests;
 [TestCategory("Handlers")]
 public class GetUserHandlersTests
 {
-    private readonly UserHandler _handler = new UserHandler(new MockUserRepository(), new MockTokenService());
+    private readonly UserHandler _handler = new UserHandler(new MockUserRepository(), new MockTokenService(), new MockEmailService());
 
     [TestMethod]
     [DataTestMethod]
@@ -13,7 +13,9 @@ public class GetUserHandlersTests
     //[DataRow("superman-justiceleague-com")]
     public async Task ShouldReturnTrueSuccessWhenLinkExists(string link)
     {
-        var _result = (CommandResult)await _handler.HandleAsync(link);
+        var command = new RegisterUserCommand();
+        command.Email = link;
+        var _result = (CommandResult)await _handler.HandleAsync(command);
 
         Assert.IsTrue(_result.Success);
     }
@@ -25,7 +27,9 @@ public class GetUserHandlersTests
     [DataRow("superman-justice-com")]
     public async Task ShouldReturnFalseSucessWhenEmailDontExists(string link)
     {
-        var _result = (CommandResult)await _handler.HandleAsync(link);
+        var command = new RegisterUserCommand();
+        command.Email = link;
+        var _result = (CommandResult)await _handler.HandleAsync(command);
 
         Assert.IsFalse(_result.Success);
     }

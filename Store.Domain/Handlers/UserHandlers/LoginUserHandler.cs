@@ -50,6 +50,12 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
             return new CommandResult(false, Notifications);
         }
 
+        if (!user.Active)
+        {
+            AddNotification("user.Active", "Usuario com cadastro não ativo");
+            return new CommandResult(false, Notifications);
+        }
+
         var token = _tokenService.GenerateToken(user);
 
         // Procedure for refresh token

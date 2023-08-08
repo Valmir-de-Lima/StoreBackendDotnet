@@ -4,7 +4,7 @@ namespace Store.Tests.Handlers.UserHandlerTests;
 [TestCategory("Handlers")]
 public class UpdateUserHandlersTests
 {
-    private readonly UserHandler _handler = new(new MockUserRepository(), new MockTokenService());
+    private readonly UserHandler _handler = new(new MockUserRepository(), new MockTokenService(), new MockEmailService());
     private readonly UpdateUserCommand _command = new();
 
     // [TestMethod]

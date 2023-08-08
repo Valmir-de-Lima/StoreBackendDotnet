@@ -4,7 +4,7 @@ namespace Store.Tests.Handlers.UserHandlerTests;
 [TestCategory("Handlers")]
 public class LoginUserHandlersTests
 {
-    private readonly UserHandler _handler = new(new MockUserRepository(), new MockTokenService());
+    private readonly UserHandler _handler = new(new MockUserRepository(), new MockTokenService(), new MockEmailService());
     private readonly LoginUserCommand _command = new();
 
 

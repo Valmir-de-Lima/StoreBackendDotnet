@@ -8,6 +8,7 @@ public class Command : Notifiable<Notification>
     private ClaimsPrincipal _user = new();
     private string _userName = "";
     private EType _userType;
+    private string _urlOfSite = "";
     public ClaimsPrincipal GetUserClaims()
     {
         return _user;
@@ -36,6 +37,11 @@ public class Command : Notifiable<Notification>
         _userType = userType;
     }
 
+    public void SetUrlOfSite(string urlOfSite)
+    {
+        _urlOfSite = urlOfSite;
+    }
+
     public string GetUserName()
     {
         return _userName;
@@ -44,4 +50,10 @@ public class Command : Notifiable<Notification>
     {
         return _userType;
     }
+
+    public string GetUrlOfSite()
+    {
+        return _urlOfSite;
+    }
+
 }
