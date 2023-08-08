@@ -47,16 +47,22 @@ public class RegisterUserHandler : Handler, IHandler<RegisterUserCommand>
         var user = new User(command.Name, email, command.Password, EType.Customer);
 
         // Send user email
-        _emailService.Send(
-                command.Name,
-                command.Email,
-                "Bem vindo a Loja!",
-                $"Olá, <strong>{command.Name}</strong>! Para confirmar o seu registro, clique no link a seguir: "
-                + "<a href=\"https://localhost:7051/v1/users "
-                + "--header 'Content-Type: application/json' "
-                + "--data-raw '{\"name\": " + command.Name + ", \"email\": " + command.Email + ", \"password\": " + command.Password + "}'"
-                + "\" >"
-            );
+        if (!_emailService.Send(command.Name, command.Email, "Bem vindo a Loja!", FormatEmailBody(command)))
+        {
+            AddNotification(FormatEmailBody(command), "Não foi possível enviar o email para registro");
+            return new CommandResult(false, Notifications);
+        }
+
         return new CommandResult(true, new UserCommandResult(user));
+    }
+
+    private string FormatEmailBody(RegisterUserCommand command)
+    {
+        var body = $"Olá, <strong>{command.Name}</strong>! Para confirmar o seu registro, clique no link a seguir: ";
+        // + "<a href=\"https://localhost:7051/v1/users"
+        // + "--header 'Content-Type: application/json' "
+        // + "--data-raw '{\"name\": " + command.Name + ", \"email\": " + command.Email + ", \"password\": " + command.Password + "}'"
+        // + "\" >";
+        return body;
     }
 }
