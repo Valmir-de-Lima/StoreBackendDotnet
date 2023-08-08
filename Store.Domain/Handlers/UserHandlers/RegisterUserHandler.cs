@@ -43,26 +43,28 @@ public class RegisterUserHandler : Handler, IHandler<RegisterUserCommand>
             return new CommandResult(false, Notifications);
         }
 
+        var passwordHash = PasswordHasher.Hash(command.Password);
+
         // Build entity
-        var user = new User(command.Name, email, command.Password, EType.Customer);
+        var user = new User(command.Name, email, passwordHash, EType.Customer);
 
         // Send user email
-        if (!_emailService.Send(command.Name, command.Email, "Bem vindo a Loja!", FormatEmailBody(command)))
+        if (!_emailService.Send(command.Name, command.Email, "Bem vindo a Loja!", FormatEmailBody(user)))
         {
-            AddNotification(FormatEmailBody(command), "Não foi possível enviar o email para registro");
+            AddNotification(FormatEmailBody(user), "Não foi possível enviar o email para registro");
             return new CommandResult(false, Notifications);
         }
+
+        // Save database
+        await _repository.CreateAsync(user);
 
         return new CommandResult(true, new UserCommandResult(user));
     }
 
-    private string FormatEmailBody(RegisterUserCommand command)
+    private string FormatEmailBody(User user)
     {
-        var body = $"Olá, <strong>{command.Name}</strong>! Para confirmar o seu registro, clique no link a seguir: ";
-        // + "<a href=\"https://localhost:7051/v1/users"
-        // + "--header 'Content-Type: application/json' "
-        // + "--data-raw '{\"name\": " + command.Name + ", \"email\": " + command.Email + ", \"password\": " + command.Password + "}'"
-        // + "\" >";
+        var body = $"Olá, <strong>{user.Name}</strong>! "
+        + "<p>Clique <a href=\"https://localhost:7051/v1/users/login/active/" + user.Id + "\">aqui</a> para ativar a sua conta.</p>";
         return body;
     }
 }

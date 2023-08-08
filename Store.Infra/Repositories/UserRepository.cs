@@ -62,6 +62,12 @@ public class UserRepository : IUserRepository
         return await _context.Users.FirstOrDefaultAsync(UserQueries.GetByEmail(email));
     }
 
+    public async Task<User?> GetByIdAsync(Guid id)
+    {
+        return await _context.Users.FirstOrDefaultAsync(UserQueries.GetById(id));
+    }
+
+
     public async Task<User?> GetByLinkAsync(string link)
     {
         return await _context.Users.FirstOrDefaultAsync(UserQueries.GetByLink(link));

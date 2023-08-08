@@ -9,6 +9,7 @@ namespace Store.Domain.Handlers.UserHandlers;
 
 public class UserHandler : Handler,
     IHandler<RegisterUserCommand>,
+    IHandler<ActiveUserCommand>,
     IHandler<CreateUserCommand>,
     IHandler<CreateManagerCommand>,
     IHandler<UpdateUserCommand>,
@@ -35,6 +36,12 @@ public class UserHandler : Handler,
     {
         return await new RegisterUserHandler(_repository, _emailService).HandleAsync(command);
     }
+
+    public async Task<ICommandResult> HandleAsync(ActiveUserCommand command)
+    {
+        return await new ActiveUserHandler(_repository).HandleAsync(command);
+    }
+
 
     public async Task<ICommandResult> HandleAsync(CreateUserCommand command)
     {

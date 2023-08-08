@@ -62,4 +62,25 @@ public class UserLoginController : ControllerBase
             ));
         }
     }
+
+    [HttpGet("v1/users/login/active/{id}")]
+    public async Task<IActionResult> Active(
+        [FromRoute] string id,
+        [FromServices] UserHandler handler
+    )
+    {
+        try
+        {
+            var command = new ActiveUserCommand(new Guid(id));
+            command.SetUser(User);
+            return Ok((CommandResult)await handler.HandleAsync(command));
+        }
+        catch
+        {
+            return StatusCode(500, new CommandResult(false,
+                "Erro ao acessar o banco de dados"
+            ));
+        }
+    }
+
 }

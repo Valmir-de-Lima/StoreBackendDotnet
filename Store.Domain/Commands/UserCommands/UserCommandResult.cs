@@ -13,6 +13,7 @@ public class UserCommandResult
         Email = user.Email.Address;
         Link = user.Link;
         Type = user.Type.ToString();
+        Active = user.Active.ToString();
     }
 
     public string Id { get; private set; } = "";
@@ -20,4 +21,5 @@ public class UserCommandResult
     public string Email { get; private set; } = new("");
     public string Link { get; private set; } = "";
     public string Type { get; private set; } = "";
+    public string Active { get; private set; } = "";
 }

@@ -49,6 +49,13 @@ public class MockUserRepository : IUserRepository
         await Task.CompletedTask;
         return _users.AsQueryable().FirstOrDefault(UserQueries.GetByEmail(email));
     }
+
+    public async Task<User?> GetByIdAsync(Guid id)
+    {
+        await Task.CompletedTask;
+        return _users.AsQueryable().FirstOrDefault(UserQueries.GetById(id));
+    }
+
     public async Task<User?> GetByLinkAsync(string link)
     {
         await Task.CompletedTask;

@@ -18,6 +18,8 @@ public class User : Entity
         PasswordHash = passwordHash;
         Link = email.Address.Replace("@", "-").Replace(".", "-");
         Type = type;
+        Active = false;
+
 
         // Design by contracts
         AddNotifications(
@@ -31,6 +33,8 @@ public class User : Entity
     public string PasswordHash { get; private set; } = "";
     public string Link { get; private set; } = "";
     public EType Type { get; private set; }
+    public bool Active { get; private set; }
+
 
     public void Update(EType type)
     {
@@ -51,6 +55,14 @@ public class User : Entity
     public void Update(string name)
     {
         Name = name;
+        AddNotifications(
+            new CreateUserContract(this)
+        );
+    }
+
+    public void Update(bool active)
+    {
+        Active = active;
         AddNotifications(
             new CreateUserContract(this)
         );
