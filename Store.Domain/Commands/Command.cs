@@ -19,12 +19,7 @@ public class Command : Notifiable<Notification>
         if (user.Identity!.Name != null)
             _userName = user.Identity.Name;
 
-        if (user.IsInRole("Manager"))
-            _userType = EType.Manager;
-        if (user.IsInRole("Employee"))
-            _userType = EType.Employee;
-        if (user.IsInRole("Customer"))
-            _userType = EType.Customer;
+        _userType = Enum.Parse<EType>(GetUserRole(user));
     }
 
     public void SetUserName(string userName)
@@ -54,6 +49,18 @@ public class Command : Notifiable<Notification>
     public string GetUrlOfSite()
     {
         return _urlOfSite;
+    }
+
+    private string GetUserRole(ClaimsPrincipal user)
+    {
+        var roleClaim = user.FindFirst(ClaimTypes.Role);
+
+        if (roleClaim != null)
+        {
+            return roleClaim.Value;
+        }
+
+        return "Customer";
     }
 
 }

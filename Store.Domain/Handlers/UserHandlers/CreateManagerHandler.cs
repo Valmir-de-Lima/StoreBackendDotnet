@@ -44,7 +44,7 @@ public class CreateManagerHandler : Handler, IHandler<CreateManagerCommand>
         // Build entity
         var user = new User(command.Name, email, passwordHash, command.Type);
 
-        user.Update(command.Type);
+        user.Update(command.Active);
         // Save database
         await _repository.CreateAsync(user);
 

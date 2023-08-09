@@ -6,14 +6,21 @@ namespace Store.Tests.Repositories;
 public class MockUserRepository : IUserRepository
 {
 
-    private List<User> _users;
+    private List<User> _users = new List<User>();
 
     public MockUserRepository()
     {
-        _users = new List<User>();
-        _users.Add(new User("batman", new Email("batman@wayne.com"), "10000.r6stlzhuNlA3g20HyeknQw==.A5UfPjceorQcKyO/jJseWZUnzKtSshy7uDxVynwM2BI=", EType.Manager));
-        _users.Add(new User("robin", new Email("robin@wayne.com"), "10000.FUta0a9lJFb+vlFzDimzhQ==.RFUZGI/wo0ASnhOP8x/GXWaWrZ6moHEQ2Ct7ZhrRTvE=", EType.Employee));
-        _users.Add(new User("superman", new Email("superman@justiceleague.com"), "10000.1s77HqQyilPTGkbp1kjVkA==.KW7WGqFVJwtYndyR93vjK0Vl13Ht6wzql1aAVYr3W38=", EType.Customer));
+        var user = new User("batman", new Email("batman@wayne.com"), "10000.r6stlzhuNlA3g20HyeknQw==.A5UfPjceorQcKyO/jJseWZUnzKtSshy7uDxVynwM2BI=", EType.Manager);
+        user.Update(true);
+        _users.Add(user);
+
+        user = new User("robin", new Email("robin@wayne.com"), "10000.FUta0a9lJFb+vlFzDimzhQ==.RFUZGI/wo0ASnhOP8x/GXWaWrZ6moHEQ2Ct7ZhrRTvE=", EType.Employee);
+        user.Update(true);
+        _users.Add(user);
+
+        user = new User("superman", new Email("superman@justiceleague.com"), "10000.1s77HqQyilPTGkbp1kjVkA==.KW7WGqFVJwtYndyR93vjK0Vl13Ht6wzql1aAVYr3W38=", EType.Customer);
+        user.Update(true);
+        _users.Add(user);
     }
 
 
