@@ -84,4 +84,62 @@ public class UserLoginController : ControllerBase
         }
     }
 
+    [HttpPost("v1/users/login/recovery-password")]
+    public async Task<IActionResult> RecoveryPassword(
+        [FromBody] RecoveryPasswordUserCommand command,
+        [FromServices] UserHandler handler
+    )
+    {
+        try
+        {
+            command.SetUrlOfSite($"{Request.Scheme}://{Request.Host}");
+            return Ok((CommandResult)await handler.HandleAsync(command));
+        }
+        catch
+        {
+            return StatusCode(500, new CommandResult(false,
+                "Erro ao acessar o banco de dados"
+            ));
+        }
+    }
+
+    [HttpGet("v1/users/login/recovery-password/{id}")]
+    public async Task<IActionResult> ConfirmRecoveryPassword(
+        [FromRoute] string id,
+        [FromServices] UserHandler handler
+    )
+    {
+        try
+        {
+            var command = new ConfirmRecoveryPasswordUserCommand(new Guid(id));
+            command.SetUrlOfSite($"{Request.Scheme}://{Request.Host}");
+            return Ok((CommandResult)await handler.HandleAsync(command));
+        }
+        catch
+        {
+            return StatusCode(500, new CommandResult(false,
+                "Erro ao acessar o banco de dados"
+            ));
+        }
+    }
+
+    [HttpPost("v1/users/login/update-recovery-password")]
+    public async Task<IActionResult> ConfirmRecoveryPassword(
+        [FromBody] UpdateRecoveryPasswordUserCommand command,
+        [FromServices] UserHandler handler
+    )
+    {
+        try
+        {
+            command.SetUrlOfSite($"{Request.Scheme}://{Request.Host}");
+            return Ok((CommandResult)await handler.HandleAsync(command));
+        }
+        catch
+        {
+            return StatusCode(500, new CommandResult(false,
+                "Erro ao acessar o banco de dados"
+            ));
+        }
+    }
+
 }

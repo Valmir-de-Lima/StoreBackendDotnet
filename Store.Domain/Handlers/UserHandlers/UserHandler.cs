@@ -10,6 +10,9 @@ namespace Store.Domain.Handlers.UserHandlers;
 public class UserHandler : Handler,
     IHandler<RegisterUserCommand>,
     IHandler<ActiveUserCommand>,
+    IHandler<RecoveryPasswordUserCommand>,
+    IHandler<ConfirmRecoveryPasswordUserCommand>,
+    IHandler<UpdateRecoveryPasswordUserCommand>,
     IHandler<CreateUserCommand>,
     IHandler<CreateManagerCommand>,
     IHandler<UpdateUserCommand>,
@@ -36,6 +39,22 @@ public class UserHandler : Handler,
     {
         return await new RegisterUserHandler(_repository, _emailService).HandleAsync(command);
     }
+
+    public async Task<ICommandResult> HandleAsync(RecoveryPasswordUserCommand command)
+    {
+        return await new RecoveryPasswordUserHandler(_repository, _emailService).HandleAsync(command);
+    }
+
+    public async Task<ICommandResult> HandleAsync(ConfirmRecoveryPasswordUserCommand command)
+    {
+        return await new ConfirmRecoveryPasswordUserHandler(_repository).HandleAsync(command);
+    }
+
+    public async Task<ICommandResult> HandleAsync(UpdateRecoveryPasswordUserCommand command)
+    {
+        return await new UpdateRecoveryPasswordUserHandler(_repository, _emailService).HandleAsync(command);
+    }
+
 
     public async Task<ICommandResult> HandleAsync(ActiveUserCommand command)
     {

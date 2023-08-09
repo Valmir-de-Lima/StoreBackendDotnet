@@ -52,7 +52,7 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
 
         if (!user.Active)
         {
-            AddNotification("user.Active", "Usuario com cadastro não ativo");
+            AddNotification("user.Active", "Usuario com conta não ativada");
             return new CommandResult(false, Notifications);
         }
 
