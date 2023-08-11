@@ -39,6 +39,13 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
 
+        builder.Property(x => x.RecoveryPasswordHash)
+            .IsRequired()
+            .HasColumnName("RecoveryPasswordHash")
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(255);
+
+
         builder.Property(x => x.Link)
             .IsRequired()
             .HasColumnName("Link")

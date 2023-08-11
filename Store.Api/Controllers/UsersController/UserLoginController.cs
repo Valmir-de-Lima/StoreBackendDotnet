@@ -17,6 +17,7 @@ public class UserLoginController : ControllerBase
     {
         try
         {
+            command.SetUrlOfSite($"{Request.Scheme}://{Request.Host}");
             return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch

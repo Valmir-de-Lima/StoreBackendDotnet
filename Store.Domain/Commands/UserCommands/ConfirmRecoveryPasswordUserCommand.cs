@@ -17,7 +17,7 @@ public class ConfirmRecoveryPasswordUserCommand : Command, ICommand
     public void Validate()
     {
         AddNotifications(
-            new ActiveUserContract(Id)
+            new ConfirmRecoveryPasswordUserContract(Id)
         );
     }
 }

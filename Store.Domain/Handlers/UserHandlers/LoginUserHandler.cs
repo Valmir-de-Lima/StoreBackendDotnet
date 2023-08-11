@@ -1,5 +1,6 @@
 using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
+using Store.Domain.Entities;
 using Store.Domain.Repositories.Interfaces;
 using Store.Domain.Services;
 using Store.Domain.ValueObjects;
@@ -14,11 +15,14 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
 
     private readonly IUserRepository _repository;
     private readonly ITokenService _tokenService;
+    private readonly IEmailService _emailService;
 
-    public LoginUserHandler(IUserRepository repository, ITokenService tokenService)
+
+    public LoginUserHandler(IUserRepository repository, ITokenService tokenService, IEmailService emailService)
     {
         _repository = repository;
         _tokenService = tokenService;
+        _emailService = emailService;
     }
 
     public async Task<ICommandResult> HandleAsync(LoginUserCommand command)
@@ -52,7 +56,9 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
 
         if (!user.Active)
         {
-            AddNotification("user.Active", "Usuario com conta não ativada");
+            AddNotification("user.Active", "Usuario com conta não ativada. Será enviado ao seu e-mail o link para ativação da conta.");
+            if (!ActiveUserAccount(user, command))
+                AddNotification(user.Id.ToString(), "Não foi possível enviar o email para ativação da conta.");
             return new CommandResult(false, Notifications);
         }
 
@@ -69,5 +75,21 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
             token,
             refreshToken
         });
+    }
+
+    private bool ActiveUserAccount(User user, LoginUserCommand command)
+    {
+        if (!_emailService.Send(user.Name, user.Email.Address, "Conclusão da recuperação da senha", FormatEmailBody(user, command.GetUrlOfSite())))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private string FormatEmailBody(User user, string urlOfSite)
+    {
+        var body = $"Olá, <strong>{user.Name}</strong>! "
+        + "<p>Clique <a href=\"" + urlOfSite + "/v1/users/login/active/" + user.Id + "\">aqui</a> para ativar a sua conta.</p>";
+        return body;
     }
 }

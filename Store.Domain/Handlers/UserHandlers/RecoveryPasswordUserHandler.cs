@@ -1,3 +1,4 @@
+using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Entities;
 using Store.Domain.Enums;
@@ -42,22 +43,28 @@ public class RecoveryPasswordUserHandler : Handler
             return new CommandResult(false, Notifications);
         }
 
-        if (!_emailService.Send(user.Name, user.Email.Address, "Início da recuperação de senha", FormatEmailBody(user, command.GetUrlOfSite())))
+        var recoveryPasswordHash = Guid.NewGuid().ToString();
+
+        if (!_emailService.Send(user.Name, user.Email.Address, "Início do processo da criação de uma nova senha", FormatEmailBody(user, recoveryPasswordHash, command.GetUrlOfSite())))
         {
-            AddNotification(command.GetUrlOfSite(), "Não foi possível enviar o email para recuperação de senha");
+            AddNotification(command.GetUrlOfSite(), "Não foi possível enviar o email para criação de uma nova senha");
             return new CommandResult(false, Notifications);
         }
 
-        user.Update(false);
+        recoveryPasswordHash = PasswordHasher.Hash(recoveryPasswordHash);
+
+        user.UpdateRecoveryPassword(recoveryPasswordHash);
         _repository.Update(user);
 
         return new CommandResult(true, new UserCommandResult(user));
     }
 
-    private string FormatEmailBody(User user, string urlOfSite)
+    private string FormatEmailBody(User user, string recoveryPasswordHash, string urlOfSite)
     {
         var body = $"Olá, <strong>{user.Name}</strong>! "
-        + "<p>Clique <a href=\"" + urlOfSite + "/v1/users/login/recovery-password/" + user.Id + "\">aqui</a> para cadastrar uma nova senha.</p>";
+        + "<p>Clique <a href=\"" + urlOfSite + "/v1/users/login/recovery-password/" + user.Id + "\">aqui</a> para iniciar o processo da criação de uma nova senha.</p> "
+        + "<p>Informe o seguinte código de autenticação quando for solicitado: " + recoveryPasswordHash + "</p>";
+
         return body;
     }
 }

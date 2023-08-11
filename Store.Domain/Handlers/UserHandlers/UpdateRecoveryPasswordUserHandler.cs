@@ -37,22 +37,40 @@ public class UpdateRecoveryPasswordUserHandler : Handler, IHandler<UpdateRecover
         // Query user exist
         if (user == null)
         {
-            AddNotification(command.Id.ToString(), "Usuário não cadastrado");
+            AddNotification(command.Id.ToString(), "Operação inválida");
+            return new CommandResult(false, Notifications);
+        }
+
+        // Query active user
+        if (user.Active)
+        {
+            AddNotification("Active", "Operação inválida");
+            user.UpdateRecoveryPassword("");
+            _repository.Update(user);
+            return new CommandResult(false, Notifications);
+        }
+
+        // Query recovery password
+        if (!PasswordHasher.Verify(user.RecoveryPasswordHash, command.RecoveryPassword.ToString()))
+        {
+            AddNotification(command.RecoveryPassword.ToString(), "Código de autenticação inválido. É necessário repetir o processo.");
+            user.UpdateRecoveryPassword("");
+            _repository.Update(user);
             return new CommandResult(false, Notifications);
         }
 
         var passwordHash = PasswordHasher.Hash(command.Password);
 
-        user.UpdatePassword(passwordHash);
-
         // Send user email
-        if (!_emailService.Send(user.Name, user.Email.Address, "Conclusão da recuperação da senha", FormatEmailBody(user, command.GetUrlOfSite())))
+        if (!_emailService.Send(user.Name, user.Email.Address, "Conclusão da criação da senha", FormatEmailBody(user, command.GetUrlOfSite())))
         {
-            AddNotification(command.GetUrlOfSite(), "Não foi possível enviar o email para registro");
+            AddNotification(command.GetUrlOfSite(), "Não foi possível enviar o email para ativação da conta.");
             return new CommandResult(false, Notifications);
         }
 
         // Save database
+        user.UpdatePassword(passwordHash);
+        user.UpdateRecoveryPassword("");
         _repository.Update(user);
 
         return new CommandResult(true, new UserCommandResult(user));

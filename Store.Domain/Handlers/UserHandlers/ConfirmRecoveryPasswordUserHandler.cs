@@ -1,3 +1,4 @@
+using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Entities;
 using Store.Domain.Enums;
@@ -39,6 +40,9 @@ public class ConfirmRecoveryPasswordUserHandler : Handler
             AddNotification(command.Id.ToString(), "Usuario não cadastrado");
             return new CommandResult(false, Notifications);
         }
+
+        user.Update(false);
+        _repository.Update(user);
 
         return new CommandResult(true, new UserCommandResult(user));
     }

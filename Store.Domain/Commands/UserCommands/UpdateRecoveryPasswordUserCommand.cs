@@ -11,10 +11,12 @@ public class UpdateRecoveryPasswordUserCommand : Command, ICommand
     public Guid Id { get; set; }
     public string Password { get; set; } = "";
 
+    public Guid RecoveryPassword { get; set; }
+
     public void Validate()
     {
         AddNotifications(
-            new UpdateRecoveryPasswordUserContract(Id, Password)
+            new UpdateRecoveryPasswordUserContract(Id, Password, RecoveryPassword)
         );
     }
 }

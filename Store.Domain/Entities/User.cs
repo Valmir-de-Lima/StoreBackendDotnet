@@ -31,6 +31,7 @@ public class User : Entity
     public string Name { get; private set; } = "";
     public Email Email { get; private set; } = new("");
     public string PasswordHash { get; private set; } = "";
+    public string RecoveryPasswordHash { get; private set; } = "";
     public string Link { get; private set; } = "";
     public EType Type { get; private set; }
     public bool Active { get; private set; }
@@ -39,14 +40,6 @@ public class User : Entity
     public void Update(EType type)
     {
         Type = type;
-        AddNotifications(
-            new CreateUserContract(this)
-        );
-    }
-
-    public void UpdatePassword(string passwordHash)
-    {
-        PasswordHash = passwordHash;
         AddNotifications(
             new CreateUserContract(this)
         );
@@ -67,4 +60,20 @@ public class User : Entity
             new CreateUserContract(this)
         );
     }
+
+    public void UpdatePassword(string passwordHash)
+    {
+        PasswordHash = passwordHash;
+        AddNotifications(
+            new CreateUserContract(this)
+        );
+    }
+    public void UpdateRecoveryPassword(string recoveryPasswordHash)
+    {
+        RecoveryPasswordHash = recoveryPasswordHash;
+        AddNotifications(
+            new CreateUserContract(this)
+        );
+    }
+
 }
