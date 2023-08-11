@@ -41,7 +41,7 @@ public class ConfirmRecoveryPasswordUserHandler : Handler
             return new CommandResult(false, Notifications);
         }
 
-        user.Update(false);
+        user.UpdateActive(false);
         _repository.Update(user);
 
         return new CommandResult(true, new UserCommandResult(user));

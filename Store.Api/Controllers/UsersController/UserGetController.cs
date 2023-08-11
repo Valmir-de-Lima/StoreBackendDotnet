@@ -8,7 +8,7 @@ using Store.Shared.Commands;
 
 namespace Store.Api.Controllers.UsersController;
 
-public class UserGetController : ControllerBase
+public partial class UserController : ControllerBase
 {
     [Authorize(Roles = Configuration.MANAGER)]
     [HttpGet("v1/users")]

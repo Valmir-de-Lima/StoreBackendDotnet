@@ -18,8 +18,8 @@ public class User : Entity
         PasswordHash = passwordHash;
         Link = email.Address.Replace("@", "-").Replace(".", "-");
         Type = type;
+        CreatedAt = DateTime.UtcNow.AddHours(BRAZILIAN_UCT);
         Active = false;
-
 
         // Design by contracts
         AddNotifications(
@@ -34,10 +34,12 @@ public class User : Entity
     public string RecoveryPasswordHash { get; private set; } = "";
     public string Link { get; private set; } = "";
     public EType Type { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime LastLogin { get; private set; }
     public bool Active { get; private set; }
 
 
-    public void Update(EType type)
+    public void UpdateType(EType type)
     {
         Type = type;
         AddNotifications(
@@ -45,7 +47,7 @@ public class User : Entity
         );
     }
 
-    public void Update(string name)
+    public void UpdateName(string name)
     {
         Name = name;
         AddNotifications(
@@ -53,7 +55,7 @@ public class User : Entity
         );
     }
 
-    public void Update(bool active)
+    public void UpdateActive(bool active)
     {
         Active = active;
         AddNotifications(
@@ -76,4 +78,11 @@ public class User : Entity
         );
     }
 
+    public void UpdateLastLogin()
+    {
+        LastLogin = DateTime.UtcNow.AddHours(BRAZILIAN_UCT); ;
+        AddNotifications(
+            new CreateUserContract(this)
+        );
+    }
 }

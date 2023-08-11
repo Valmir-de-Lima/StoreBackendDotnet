@@ -56,7 +56,7 @@ public class UserTests
     public void ShouldReturnValidUserWhenDatasUpdateAreValids(string name)
     {
         var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
-        user.Update(name);
+        user.UpdateName(name);
         Assert.IsTrue(user.IsValid);
     }
 
@@ -68,7 +68,7 @@ public class UserTests
     public void ShouldReturnInvalidUserWhenNameUpdateisInvalid(string name)
     {
         var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
-        user.Update(name);
+        user.UpdateName(name);
         Assert.IsFalse(user.IsValid);
     }
 

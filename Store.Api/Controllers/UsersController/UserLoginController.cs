@@ -5,9 +5,7 @@ using Store.Shared.Commands;
 
 namespace Store.Api.Controllers.UsersController;
 
-[ApiController]
-[Route("")]
-public class UserLoginController : ControllerBase
+public partial class UserController : ControllerBase
 {
     [HttpPost("v1/users/login")]
     public async Task<IActionResult> Login(

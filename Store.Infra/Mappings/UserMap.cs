@@ -45,12 +45,21 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
 
-
         builder.Property(x => x.Link)
             .IsRequired()
             .HasColumnName("Link")
             .HasColumnType("VARCHAR")
             .HasMaxLength(80);
+
+        builder.Property(x => x.CreatedAt)
+            .IsRequired()
+            .HasColumnName("CreatedAt")
+            .HasColumnType("DATETIME");
+
+        builder.Property(x => x.LastLogin)
+            .IsRequired()
+            .HasColumnName("LastLogin")
+            .HasColumnType("DATETIME");
 
         builder.Property(x => x.Type)
             .IsRequired()

@@ -8,8 +8,11 @@ using Store.Domain.Services;
 
 namespace Store.Api.Controllers.UsersController;
 
-public class UserController : ControllerBase
+[ApiController]
+[Route("")]
+public partial class UserController : ControllerBase
 {
+    [Authorize(Roles = Configuration.MANAGER)]
     [HttpPost("v1/users")]
     public async Task<IActionResult> Create(
         [FromBody] CreateUserCommand command,
@@ -18,6 +21,7 @@ public class UserController : ControllerBase
     {
         try
         {
+            command.SetUrlOfSite($"{Request.Scheme}://{Request.Host}");
             return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch

@@ -46,7 +46,7 @@ public class ActiveUserHandler : Handler
             return new CommandResult(false, Notifications);
         }
 
-        user.Update(true);
+        user.UpdateActive(true);
 
         // Save database
         _repository.Update(user);

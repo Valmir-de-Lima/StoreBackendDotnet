@@ -47,7 +47,7 @@ public class UpdateUserHandler : Handler, IHandler<UpdateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        user.Update(command.Name);
+        user.UpdateName(command.Name);
 
         // Save database
         _repository.Update(user);

@@ -64,12 +64,12 @@ public class UserHandler : Handler,
 
     public async Task<ICommandResult> HandleAsync(CreateUserCommand command)
     {
-        return await new CreateUserHandler(_repository).HandleAsync(command);
+        return await new CreateUserHandler(_repository, _emailService).HandleAsync(command);
     }
 
     public async Task<ICommandResult> HandleAsync(CreateManagerCommand command)
     {
-        return await new CreateManagerHandler(_repository).HandleAsync(command);
+        return await new CreateManagerHandler(_repository, _emailService).HandleAsync(command);
     }
     public async Task<ICommandResult> HandleAsync(GetUserCommand command)
     {

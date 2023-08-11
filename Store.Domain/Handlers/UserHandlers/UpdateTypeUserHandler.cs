@@ -41,7 +41,7 @@ public class UpdateTypeUserHandler : Handler, IHandler<UpdateTypeUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        user.Update((EType)command.Type);
+        user.UpdateType((EType)command.Type);
 
         // Save database
         _repository.Update(user);

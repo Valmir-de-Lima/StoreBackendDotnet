@@ -10,11 +10,12 @@ public static class Configuration
     public static string JwtKey = "";
     public static SmtpConfiguration Smtp = new();
 
-    public static CreateManagerCommand CreatePrimaryManager(IConfiguration config)
+    public static CreateManagerCommand CreatePrimaryManager(IConfiguration config, string urlOfSite)
     {
         var createManagerCommand = new CreateManagerCommand();
 
         config.GetSection("Manager").Bind(createManagerCommand);
+        createManagerCommand.SetUrlOfSite(urlOfSite);
 
         return createManagerCommand;
     }

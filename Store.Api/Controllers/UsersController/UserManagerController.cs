@@ -6,7 +6,7 @@ using Store.Shared.Commands;
 
 namespace Store.Api.Controllers.UsersController;
 
-public class UserManagerController : ControllerBase
+public partial class UserController : ControllerBase
 {
     [HttpPost("v1/users/manager")]
     public async Task<IActionResult> CreatePrimaryManager(
@@ -16,7 +16,8 @@ public class UserManagerController : ControllerBase
     {
         try
         {
-            return Ok((CommandResult)await handler.HandleAsync(Configuration.CreatePrimaryManager(config)));
+            var urlOfSite = $"{Request.Scheme}://{Request.Host}";
+            return Ok((CommandResult)await handler.HandleAsync(Configuration.CreatePrimaryManager(config, urlOfSite)));
         }
         catch
         {

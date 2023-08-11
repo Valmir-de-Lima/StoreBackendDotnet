@@ -3,6 +3,7 @@ using Store.Domain.Commands.UserCommands;
 using Store.Domain.Entities;
 using Store.Domain.Repositories.Interfaces;
 using Store.Domain.ValueObjects;
+using Store.Domain.Services;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
 using Store.Shared.Handlers;
@@ -13,10 +14,12 @@ public class CreateManagerHandler : Handler, IHandler<CreateManagerCommand>
 {
 
     private readonly IUserRepository _repository;
+    private readonly IEmailService _emailService;
 
-    public CreateManagerHandler(IUserRepository repository)
+    public CreateManagerHandler(IUserRepository repository, IEmailService emailService)
     {
         _repository = repository;
+        _emailService = emailService;
     }
 
     public async Task<ICommandResult> HandleAsync(CreateManagerCommand command)
@@ -44,11 +47,23 @@ public class CreateManagerHandler : Handler, IHandler<CreateManagerCommand>
         // Build entity
         var user = new User(command.Name, email, passwordHash, command.Type);
 
-        user.Update(command.Active);
+        // Send user email
+        if (!_emailService.Send(command.Name, command.Email, "Bem vindo a Loja!", FormatEmailBody(user, command.GetUrlOfSite())))
+        {
+            AddNotification(command.GetUrlOfSite(), "Não foi possível enviar o email para registro");
+            return new CommandResult(false, Notifications);
+        }
+
         // Save database
         await _repository.CreateAsync(user);
 
-
         return new CommandResult(true, new UserCommandResult(user));
+    }
+
+    private string FormatEmailBody(User user, string urlOfSite)
+    {
+        var body = $"Olá, <strong>{user.Name}</strong>! "
+        + "<p>Clique <a href=\"" + urlOfSite + "/v1/users/login/active/" + user.Id + "\">aqui</a> para ativar a sua conta.</p>";
+        return body;
     }
 }

@@ -69,6 +69,9 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
         _tokenService.DeleteRefreshToken(user.Link);
         await _tokenService.SaveRefreshTokenAsync(user.Link, refreshToken);
 
+        user.UpdateLastLogin();
+        _repository.Update(user);
+
         return new CommandResult(true, new
         {
             userName = user.Link,
@@ -79,7 +82,7 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
 
     private bool ActiveUserAccount(User user, LoginUserCommand command)
     {
-        if (!_emailService.Send(user.Name, user.Email.Address, "Conclusão da recuperação da senha", FormatEmailBody(user, command.GetUrlOfSite())))
+        if (!_emailService.Send(user.Name, user.Email.Address, "Ativação da conta", FormatEmailBody(user, command.GetUrlOfSite())))
         {
             return false;
         }
