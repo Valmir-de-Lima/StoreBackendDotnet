@@ -8,11 +8,11 @@ namespace Store.Domain.Commands.UserCommands;
 
 public class ConfirmRecoveryPasswordUserCommand : Command, ICommand
 {
-    public ConfirmRecoveryPasswordUserCommand(Guid id)
+    public ConfirmRecoveryPasswordUserCommand(string id)
     {
         Id = id;
     }
-    public Guid Id { get; set; }
+    public string Id { get; set; } = "";
 
     public void Validate()
     {

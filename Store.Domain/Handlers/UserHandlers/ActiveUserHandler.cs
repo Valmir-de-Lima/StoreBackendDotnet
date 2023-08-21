@@ -31,7 +31,7 @@ public class ActiveUserHandler : Handler
         }
 
         // Get user repository
-        var user = await _repository.GetByIdAsync(command.Id);
+        var user = await _repository.GetByIdAsync(new Guid(command.Id));
 
         // Query user exist
         if (user == null)

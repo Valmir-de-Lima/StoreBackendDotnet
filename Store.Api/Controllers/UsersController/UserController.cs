@@ -62,6 +62,7 @@ public partial class UserController : ControllerBase
     {
         try
         {
+            command.SetUser(User);
             return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch

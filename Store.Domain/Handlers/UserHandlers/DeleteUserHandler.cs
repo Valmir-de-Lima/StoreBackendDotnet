@@ -1,3 +1,4 @@
+using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Entities;
 using Store.Domain.Enums;
@@ -26,6 +27,29 @@ public class DeleteUserHandler : Handler, IHandler<DeleteUserCommand>
         if (!command.IsValid)
         {
             AddNotifications(command);
+            return new CommandResult(false, Notifications);
+        }
+
+        var linkManager = command.GetUserName();
+        var managerType = command.GetUserType();
+
+        if (managerType != EType.Manager)
+        {
+            AddNotification("command.GetUserName", "Informação indisponível");
+            return new CommandResult(false, Notifications);
+        }
+
+        var manager = await _repository.GetByLinkAsync(linkManager);
+
+        if (manager == null)
+        {
+            AddNotification(command.Email, "Usuario ou senha inválidos");
+            return new CommandResult(false, Notifications);
+        }
+
+        if (!PasswordHasher.Verify(manager.PasswordHash, command.Password))
+        {
+            AddNotification(command.Password, "Usuario ou senha inválidos");
             return new CommandResult(false, Notifications);
         }
 

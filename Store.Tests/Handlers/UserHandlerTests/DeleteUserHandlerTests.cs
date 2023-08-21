@@ -17,6 +17,8 @@ public class DeleteUserHandlersTests
         command.Email = addres;
         command.Password = password;
 
+        command.SetUserType(EType.Manager);
+        command.SetUserName(addres.Replace("@", "-").Replace(".", "-"));
         var _result = (CommandResult)await _handler.HandleAsync(command);
 
         Assert.IsTrue(_result.Success);

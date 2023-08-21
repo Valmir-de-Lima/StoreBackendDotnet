@@ -71,7 +71,7 @@ public partial class UserController : ControllerBase
     {
         try
         {
-            var command = new ActiveUserCommand(new Guid(id));
+            var command = new ActiveUserCommand(id);
             command.SetUser(User);
             return Ok((CommandResult)await handler.HandleAsync(command));
         }
@@ -110,7 +110,7 @@ public partial class UserController : ControllerBase
     {
         try
         {
-            var command = new ConfirmRecoveryPasswordUserCommand(new Guid(id));
+            var command = new ConfirmRecoveryPasswordUserCommand(id);
             command.SetUrlOfSite($"{Request.Scheme}://{Request.Host}");
             return Ok((CommandResult)await handler.HandleAsync(command));
         }

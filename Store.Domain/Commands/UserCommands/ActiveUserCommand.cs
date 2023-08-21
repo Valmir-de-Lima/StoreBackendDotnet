@@ -5,11 +5,11 @@ namespace Store.Domain.Commands.UserCommands;
 
 public class ActiveUserCommand : Command, ICommand
 {
-    public ActiveUserCommand(Guid id)
+    public ActiveUserCommand(string id)
     {
         Id = id;
     }
-    public Guid Id { get; set; }
+    public string Id { get; set; } = "";
 
     public void Validate()
     {

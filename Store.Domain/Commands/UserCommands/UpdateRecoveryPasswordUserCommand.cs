@@ -8,10 +8,10 @@ namespace Store.Domain.Commands.UserCommands;
 
 public class UpdateRecoveryPasswordUserCommand : Command, ICommand
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; } = "";
     public string Password { get; set; } = "";
 
-    public Guid RecoveryPassword { get; set; }
+    public string RecoveryPassword { get; set; } = "";
 
     public void Validate()
     {
