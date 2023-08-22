@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Store.Domain.Entities;
+using Store.Domain.Entities.User;
 
 namespace Store.Domain.Services;
 public interface ITokenService

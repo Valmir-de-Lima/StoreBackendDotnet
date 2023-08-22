@@ -1,8 +1,8 @@
 using Flunt.Validations;
 
-namespace Store.Domain.Entities.Contracts;
+namespace Store.Domain.Commands.UserCommands.Contracts;
 
-public class ActiveUserContract : Contract<User>
+public class ActiveUserContract : Contract<ActiveUserCommand>
 {
     public ActiveUserContract(string id)
     {

@@ -1,7 +1,7 @@
 using Store.Shared.Entities;
-using Store.Domain.Entities.Contracts;
+using Store.Domain.Entities.User.Contracts;
 
-namespace Store.Domain.Entities;
+namespace Store.Domain.Entities.User;
 
 public class RefreshLoginUser : Entity
 {

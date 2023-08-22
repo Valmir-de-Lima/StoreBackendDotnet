@@ -1,7 +1,7 @@
 using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
 using Store.Domain.Repositories.Interfaces;
-using Store.Domain.Entities;
+using Store.Domain.Entities.User;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
 using Store.Shared.Handlers;

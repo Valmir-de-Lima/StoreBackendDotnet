@@ -1,7 +1,7 @@
 using Store.Domain.Enums;
 using Store.Domain.ValueObjects;
-using Store.Domain.Entities;
-using Store.Domain.Entities.Contracts;
+using Store.Domain.Entities.User;
+using Store.Domain.Entities.User.Contracts;
 using Store.Shared.Commands.Interfaces;
 
 namespace Store.Domain.Commands.UserCommands;

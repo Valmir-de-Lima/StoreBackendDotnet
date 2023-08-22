@@ -1,9 +1,9 @@
 using Flunt.Validations;
 using Store.Domain.Enums;
 
-namespace Store.Domain.Entities.Contracts;
+namespace Store.Domain.Commands.UserCommands.Contracts;
 
-public class UpdateTypeUserContract : Contract<User>
+public class UpdateTypeUserContract : Contract<UpdateTypeUserCommand>
 {
     public UpdateTypeUserContract(EType type)
     {

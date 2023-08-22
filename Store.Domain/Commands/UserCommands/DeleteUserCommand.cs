@@ -1,6 +1,5 @@
 using Store.Domain.ValueObjects.Contracts;
 using Store.Shared.Commands.Interfaces;
-using Store.Shared.Commands;
 using Store.Domain.ValueObjects;
 
 namespace Store.Domain.Commands.UserCommands;

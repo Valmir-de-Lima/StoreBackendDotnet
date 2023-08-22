@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Store.Domain.Commands.UserCommands;
-using Store.Domain.Entities;
+using Store.Domain.Entities.User;
 using Store.Domain.Queries;
 using Store.Domain.Repositories.Interfaces;
 using Store.Domain.ValueObjects;

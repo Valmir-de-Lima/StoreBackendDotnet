@@ -1,6 +1,6 @@
 using SecureIdentity.Password;
 using Store.Domain.Commands.UserCommands;
-using Store.Domain.Entities;
+using Store.Domain.Entities.User;
 using Store.Domain.Enums;
 using Store.Domain.Repositories.Interfaces;
 using Store.Domain.Services;

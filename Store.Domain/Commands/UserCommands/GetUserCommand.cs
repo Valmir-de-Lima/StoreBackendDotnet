@@ -1,4 +1,4 @@
-using Store.Domain.Entities.Contracts;
+using Store.Domain.Commands.UserCommands.Contracts;
 using Store.Shared.Commands.Interfaces;
 
 namespace Store.Domain.Commands.UserCommands;

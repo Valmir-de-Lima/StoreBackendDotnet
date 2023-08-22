@@ -1,9 +1,8 @@
 using Flunt.Validations;
-using Store.Domain.Enums;
 
-namespace Store.Domain.Entities.Contracts;
+namespace Store.Domain.Commands.UserCommands.Contracts;
 
-public class GetUserContract : Contract<User>
+public class GetUserContract : Contract<GetUserCommand>
 {
     public GetUserContract(string link)
     {

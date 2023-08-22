@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Store.Domain.Entities;
+using Store.Domain.Entities.User;
 
 namespace Store.Infra.Mappings;
 

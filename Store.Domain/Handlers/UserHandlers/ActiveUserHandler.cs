@@ -1,12 +1,8 @@
 using Store.Domain.Commands.UserCommands;
-using Store.Domain.Entities;
-using Store.Domain.Enums;
+using Store.Domain.Entities.User;
 using Store.Domain.Repositories.Interfaces;
-using Store.Domain.Services;
-using Store.Domain.ValueObjects;
 using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
-using Store.Shared.Handlers;
 
 namespace Store.Domain.Handlers.UserHandlers;
 
@@ -34,7 +30,7 @@ public class ActiveUserHandler : Handler
         var user = await _repository.GetByIdAsync(new Guid(command.Id));
 
         // Query user exist
-        if (user == null)
+        if (user is null)
         {
             AddNotification(command.Id.ToString(), "Usuario não cadastrado");
             return new CommandResult(false, Notifications);

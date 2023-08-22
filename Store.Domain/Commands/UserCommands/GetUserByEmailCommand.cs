@@ -1,4 +1,3 @@
-using Store.Domain.Entities.Contracts;
 using Store.Shared.Commands.Interfaces;
 using Store.Domain.ValueObjects;
 

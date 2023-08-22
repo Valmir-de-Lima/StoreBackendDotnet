@@ -1,8 +1,8 @@
 using Flunt.Validations;
 
-namespace Store.Domain.Entities.Contracts;
+namespace Store.Domain.Commands.UserCommands.Contracts;
 
-public class UpdateRecoveryPasswordUserContract : Contract<User>
+public class UpdateRecoveryPasswordUserContract : Contract<UpdateRecoveryPasswordUserCommand>
 {
     public UpdateRecoveryPasswordUserContract(string id, string password, string recoveryPassword)
     {

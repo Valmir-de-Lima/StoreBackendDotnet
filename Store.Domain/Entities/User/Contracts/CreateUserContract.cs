@@ -1,6 +1,6 @@
 using Flunt.Validations;
 
-namespace Store.Domain.Entities.Contracts;
+namespace Store.Domain.Entities.User.Contracts;
 
 public class CreateUserContract : Contract<User>
 {

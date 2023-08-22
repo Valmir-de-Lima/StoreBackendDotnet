@@ -1,4 +1,4 @@
-using Store.Domain.Entities;
+using Store.Domain.Entities.User;
 
 namespace Store.Domain.Repositories.Interfaces;
 public interface IRefreshLoginUserRepository

@@ -1,6 +1,4 @@
-using Store.Domain.Entities;
-using Store.Domain.Enums;
-using Store.Shared.Commands;
+using Store.Domain.Entities.User;
 
 namespace Store.Domain.Commands.UserCommands;
 

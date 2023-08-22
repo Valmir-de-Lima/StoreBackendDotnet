@@ -1,9 +1,8 @@
 using Flunt.Validations;
-using Store.Domain.Enums;
 
-namespace Store.Domain.Entities.Contracts;
+namespace Store.Domain.Commands.UserCommands.Contracts;
 
-public class UpdateNameUserContract : Contract<User>
+public class UpdateNameUserContract : Contract<UpdateUserCommand>
 {
     public UpdateNameUserContract(string name)
     {

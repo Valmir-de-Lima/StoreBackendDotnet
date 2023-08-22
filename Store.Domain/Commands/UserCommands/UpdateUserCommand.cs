@@ -1,6 +1,5 @@
-using Store.Domain.Entities.Contracts;
+using Store.Domain.Commands.UserCommands.Contracts;
 using Store.Shared.Commands.Interfaces;
-using Store.Shared.Commands;
 
 namespace Store.Domain.Commands.UserCommands;
 
