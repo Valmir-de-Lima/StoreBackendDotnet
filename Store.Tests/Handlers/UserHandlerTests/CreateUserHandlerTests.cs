@@ -18,6 +18,8 @@ public class CreateUserHandlersTests
         command.Email = addres;
         command.Password = password;
 
+        command.SetUserType(EType.Manager);
+        command.SetUserName("batman-wayne-com");
         var _result = (CommandResult)await _handler.HandleAsync(command);
 
         Assert.IsTrue(_result.Success);

@@ -33,6 +33,14 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
+        var managerType = command.GetUserType();
+
+        if (managerType != EType.Manager)
+        {
+            AddNotification("command.GetUserName", "Informação indisponível");
+            return new CommandResult(false, Notifications);
+        }
+
         // Build Value Objects
         var email = new Email(command.Email);
 

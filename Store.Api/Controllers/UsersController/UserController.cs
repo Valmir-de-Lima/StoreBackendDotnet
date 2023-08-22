@@ -22,6 +22,7 @@ public partial class UserController : ControllerBase
         try
         {
             command.SetUrlOfSite($"{Request.Scheme}://{Request.Host}");
+            command.SetUser(User);
             return Ok((CommandResult)await handler.HandleAsync(command));
         }
         catch
