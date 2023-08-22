@@ -46,13 +46,13 @@ public class UpdatePasswordUserHandler : Handler, IHandler<UpdatePasswordUserCom
             return new CommandResult(false, Notifications);
         }
 
-        if (!PasswordHasher.Verify(user.PasswordHash, command.OldPassword))
+        if (!PasswordHasher.Verify(user.GetPasswordHash(), command.OldPassword))
         {
             AddNotification(command.OldPassword, "Usuario ou senha inválidos");
             return new CommandResult(false, Notifications);
         }
 
-        var passwordHash = PasswordHasher.Hash(command.NewPassword);
+        var passwordHash = new Password(command.NewPassword);
 
         user.UpdatePassword(passwordHash);
 

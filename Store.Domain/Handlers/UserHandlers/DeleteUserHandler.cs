@@ -47,7 +47,7 @@ public class DeleteUserHandler : Handler, IHandler<DeleteUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        if (!PasswordHasher.Verify(manager.PasswordHash, command.Password))
+        if (!PasswordHasher.Verify(manager.GetPasswordHash(), command.Password))
         {
             AddNotification(command.Password, "Usuario ou senha inválidos");
             return new CommandResult(false, Notifications);

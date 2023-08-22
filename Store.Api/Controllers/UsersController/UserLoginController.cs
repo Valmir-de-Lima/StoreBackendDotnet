@@ -58,7 +58,7 @@ public partial class UserController : ControllerBase
         catch
         {
             return StatusCode(500, new CommandResult(false,
-                "Erro ao efetuar o login."
+                "Erro ao efetuar o registro."
             ));
         }
     }

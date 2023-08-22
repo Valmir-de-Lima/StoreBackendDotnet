@@ -10,9 +10,9 @@ public class LoginUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman@wayne.com", "123456", EType.Manager)]
-    [DataRow("robin@wayne.com", "123456", EType.Employee)]
-    [DataRow("superman@justiceleague.com", "123456", EType.Customer)]
+    [DataRow("batman@wayne.com", "Teste.31122022", EType.Manager)]
+    [DataRow("robin@wayne.com", "Teste.31122022", EType.Employee)]
+    [DataRow("superman@justiceleague.com", "Teste.31122022", EType.Customer)]
     public async Task ShouldReturnTrueSuccessWhenDatasAreValids(string addres, string password, EType type)
     {
         _command.Email = addres;
@@ -27,9 +27,9 @@ public class LoginUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman@batman.com", "123456", EType.Manager)]
-    [DataRow("robin@robin.com", "123456", EType.Employee)]
-    [DataRow("superman@justice.com", "123456", EType.Customer)]
+    [DataRow("batman@batman.com", "Teste.31122022", EType.Manager)]
+    [DataRow("robin@robin.com", "Teste.31122022", EType.Employee)]
+    [DataRow("superman@justice.com", "Teste.31122022", EType.Customer)]
     public async Task ShouldReturnFalseSucessWhenEmailDontExists(string addres, string password, EType type)
     {
         _command.Email = addres;

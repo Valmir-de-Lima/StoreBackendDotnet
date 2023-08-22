@@ -12,8 +12,10 @@ public class DeleteUserCommand : Command, ICommand
 
     public void Validate()
     {
+        var password = new Password(Password);
         AddNotifications(new CreateEmailContract(
             new Email(Email)
-        ));
+        ),
+        password);
     }
 }

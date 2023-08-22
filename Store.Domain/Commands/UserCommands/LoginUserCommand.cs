@@ -15,6 +15,7 @@ public class LoginUserCommand : Command, ICommand
     public void Validate()
     {
         var email = new Email(Email);
-        AddNotifications(email);
+        var password = new Password(Password);
+        AddNotifications(email, password);
     }
 }

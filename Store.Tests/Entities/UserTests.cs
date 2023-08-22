@@ -6,45 +6,45 @@ public class UserTests
 {
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "123456", EType.Manager)]
-    [DataRow("robin", "robin@wayne.com", "123456", EType.Employee)]
-    [DataRow("superman", "superman@justiceleague.com", "123456", EType.Customer)]
+    [DataRow("batman", "batman@wayne.com", "Teste.31122022", EType.Manager)]
+    [DataRow("robin", "robin@wayne.com", "Teste.31122022", EType.Employee)]
+    [DataRow("superman", "superman@justiceleague.com", "Teste.31122022", EType.Customer)]
     public void ShouldReturnValidUserWhenDatasAreValids(string name, string addres, string password, EType type)
     {
-        var user = new User(name, new Email(addres), password, type);
+        var user = new User(name, new Email(addres), new Password(password), type);
         Assert.IsTrue(user.IsValid);
     }
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("ba", "batman@wayne.com", "123456", EType.Manager)]
-    [DataRow("", "robin@wayne.com", "123456", EType.Employee)]
-    [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456", EType.Customer)]
+    [DataRow("ba", "batman@wayne.com", "Teste.31122022", EType.Manager)]
+    [DataRow("", "robin@wayne.com", "Teste.31122022", EType.Employee)]
+    [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "Teste.31122022", EType.Customer)]
     public void ShouldReturnInvalidUserWhenNameIsInvalid(string name, string addres, string password, EType type)
     {
-        var user = new User(name, new Email(addres), password, type);
+        var user = new User(name, new Email(addres), new Password(password), type);
         Assert.IsFalse(user.IsValid);
     }
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "@wayne.com", "123456", 0)]
-    [DataRow("robin", "robin@.com", "123456", 1)]
-    [DataRow("superman", "supermanjusticeleague.com", "123456", 2)]
+    [DataRow("batman", "@wayne.com", "Teste.31122022", 0)]
+    [DataRow("robin", "robin@.com", "Teste.31122022", 1)]
+    [DataRow("superman", "supermanjusticeleague.com", "Teste.31122022", 2)]
     public void ShouldReturnInvalidUserWhenEmailIsInvalid(string name, string addres, string password, EType type)
     {
-        var user = new User(name, new Email(addres), password, type);
+        var user = new User(name, new Email(addres), new Password(password), type);
         Assert.IsFalse(user.IsValid);
     }
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "123456", -1)]
-    [DataRow("robin", "robin@wayne.com", "123456", 3)]
-    [DataRow("superman", "superman@justiceleague.com", "123456", 4)]
+    [DataRow("batman", "batman@wayne.com", "Teste.31122022", -1)]
+    [DataRow("robin", "robin@wayne.com", "Teste.31122022", 3)]
+    [DataRow("superman", "superman@justiceleague.com", "Teste.31122022", 4)]
     public void ShouldReturnInvalidUserWhenTypeIsInvalid(string name, string addres, string password, EType type)
     {
-        var user = new User(name, new Email(addres), password, type);
+        var user = new User(name, new Email(addres), new Password(password), type);
         Assert.IsFalse(user.IsValid);
     }
 
@@ -55,7 +55,7 @@ public class UserTests
     [DataRow("superman")]
     public void ShouldReturnValidUserWhenDatasUpdateAreValids(string name)
     {
-        var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
+        var user = new User("Flash", new Email("hero@justiceleague.com"), new Password("Teste.31122022"), EType.Customer);
         user.UpdateName(name);
         Assert.IsTrue(user.IsValid);
     }
@@ -67,7 +67,7 @@ public class UserTests
     [DataRow("superman superman superman superman superman superman")]
     public void ShouldReturnInvalidUserWhenNameUpdateisInvalid(string name)
     {
-        var user = new User("Flash", new Email("hero@justiceleague.com"), "123456", EType.Customer);
+        var user = new User("Flash", new Email("hero@justiceleague.com"), new Password("Teste.31122022"), EType.Customer);
         user.UpdateName(name);
         Assert.IsFalse(user.IsValid);
     }

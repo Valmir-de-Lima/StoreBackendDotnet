@@ -8,9 +8,9 @@ public class CreateUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@justice.com", "123456")]
-    [DataRow("robin", "robin@justice.com", "123456")]
-    [DataRow("superman", "superman@justice.com", "123456")]
+    [DataRow("batman", "batman@justice.com", "Teste.31122022")]
+    [DataRow("robin", "robin@justice.com", "Teste.31122022")]
+    [DataRow("superman", "superman@justice.com", "Teste.31122022")]
     public async Task ShouldReturnTrueSuccessWhenDatasAreValids(string name, string addres, string password)
     {
         var command = new CreateUserCommand();
@@ -27,9 +27,9 @@ public class CreateUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("ba", "batman@justice.com", "123456")]
-    [DataRow("", "robin@justice.com", "123456")]
-    [DataRow("superman superman superman superman superman superman", "superman@justice.com", "123456")]
+    [DataRow("ba", "batman@justice.com", "Teste.31122022")]
+    [DataRow("", "robin@justice.com", "Teste.31122022")]
+    [DataRow("superman superman superman superman superman superman", "superman@justice.com", "Teste.31122022")]
     public async Task ShouldReturnFalseSucessWhenNameIsInvalid(string name, string addres, string password)
     {
         var command = new CreateUserCommand();
@@ -44,9 +44,9 @@ public class CreateUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "123456")]
-    [DataRow("robin", "robin@wayne.com", "123456")]
-    [DataRow("superman", "superman@justiceleague.com", "123456")]
+    [DataRow("batman", "batman@wayne.com", "Teste.31122022")]
+    [DataRow("robin", "robin@wayne.com", "Teste.31122022")]
+    [DataRow("superman", "superman@justiceleague.com", "Teste.31122022")]
     public async Task ShouldReturnFalseSucessWhenEmailExists(string name, string addres, string password)
     {
         var command = new CreateUserCommand();

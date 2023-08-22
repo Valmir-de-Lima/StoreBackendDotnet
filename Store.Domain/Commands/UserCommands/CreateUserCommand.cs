@@ -15,8 +15,11 @@ public class CreateUserCommand : Command, ICommand
     public void Validate()
     {
         var email = new Email(Email);
+        var password = new Password(Password);
         AddNotifications(new CreateUserContract(
-            new User(Name, email, Password, EType.Customer)
-        ), email);
+            new User(Name, email, password, EType.Customer)
+        ),
+        email,
+        password);
     }
 }

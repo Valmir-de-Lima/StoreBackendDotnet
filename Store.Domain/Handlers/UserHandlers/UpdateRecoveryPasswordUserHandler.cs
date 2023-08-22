@@ -6,6 +6,7 @@ using Store.Shared.Commands;
 using Store.Shared.Commands.Interfaces;
 using Store.Shared.Handlers;
 using Store.Domain.Services;
+using Store.Domain.ValueObjects;
 
 namespace Store.Domain.Handlers.UserHandlers;
 
@@ -59,8 +60,6 @@ public class UpdateRecoveryPasswordUserHandler : Handler, IHandler<UpdateRecover
             return new CommandResult(false, Notifications);
         }
 
-        var passwordHash = PasswordHasher.Hash(command.Password);
-
         // Send user email
         if (!_emailService.Send(user.Name, user.Email.Address, "Conclusão da criação da senha", FormatEmailBody(user, command.GetUrlOfSite())))
         {
@@ -68,6 +67,7 @@ public class UpdateRecoveryPasswordUserHandler : Handler, IHandler<UpdateRecover
             return new CommandResult(false, Notifications);
         }
 
+        var passwordHash = new Password(command.Password);
         // Save database
         user.UpdatePassword(passwordHash);
         user.UpdateRecoveryPassword("");

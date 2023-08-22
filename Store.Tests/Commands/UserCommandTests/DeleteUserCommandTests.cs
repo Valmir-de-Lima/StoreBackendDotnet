@@ -8,9 +8,9 @@ public class DeleteUserCommandTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman@wayne.com", "123456")]
-    [DataRow("robin@wayne.com", "123456")]
-    [DataRow("superman@justiceleague.com", "123456")]
+    [DataRow("batman@wayne.com", "Teste.31122022")]
+    [DataRow("robin@wayne.com", "Teste.31122022")]
+    [DataRow("superman@justiceleague.com", "Teste.31122022")]
     public void ShouldReturnValidCommandWhenEmailIsValid(string addres, string password)
     {
         _command.Email = addres;
@@ -22,9 +22,9 @@ public class DeleteUserCommandTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("@wayne.com", "123456")]
-    [DataRow("robin@.com", "123456")]
-    [DataRow("supermanjusticeleague.com", "123456")]
+    [DataRow("@wayne.com", "Teste.31122022")]
+    [DataRow("robin@.com", "Teste.31122022")]
+    [DataRow("supermanjusticeleague.com", "Teste.31122022")]
     public void ShouldReturnInvalidCommandWhenEmailIsInvalid(string addres, string password)
     {
         _command.Email = addres;

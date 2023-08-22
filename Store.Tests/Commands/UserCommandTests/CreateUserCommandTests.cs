@@ -8,9 +8,9 @@ public class CreateUserCommandTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "batman@wayne.com", "123456")]
-    [DataRow("robin", "robin@wayne.com", "123456")]
-    [DataRow("superman", "superman@justiceleague.com", "123456")]
+    [DataRow("batman", "batman@wayne.com", "Teste.31122022")]
+    [DataRow("robin", "robin@wayne.com", "Teste.31122022")]
+    [DataRow("superman", "superman@justiceleague.com", "Teste.31122022")]
     public void ShouldReturnValidCommandWhenDatasAreValids(string name, string addres, string password)
     {
         _command.Name = name;
@@ -23,9 +23,9 @@ public class CreateUserCommandTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("ba", "batman@wayne.com", "123456")]
-    [DataRow("", "robin@wayne.com", "123456")]
-    [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "123456")]
+    [DataRow("ba", "batman@wayne.com", "Teste.31122022")]
+    [DataRow("", "robin@wayne.com", "Teste.31122022")]
+    [DataRow("superman superman superman superman superman superman", "superman@justiceleague.com", "Teste.31122022")]
     public void ShouldReturnInvalidCommandWhenNameIsInvalid(string name, string addres, string password)
     {
         _command.Name = name;
@@ -38,9 +38,9 @@ public class CreateUserCommandTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman", "@wayne.com", "123456")]
-    [DataRow("robin", "robin@.com", "123456")]
-    [DataRow("superman", "supermanjusticeleague.com", "123456")]
+    [DataRow("batman", "@wayne.com", "Teste.31122022")]
+    [DataRow("robin", "robin@.com", "Teste.31122022")]
+    [DataRow("superman", "supermanjusticeleague.com", "Teste.31122022")]
     public void ShouldReturnInvalidCommandWhenEmailIsInvalid(string name, string addres, string password)
     {
         _command.Name = name;

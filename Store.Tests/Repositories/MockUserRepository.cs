@@ -10,15 +10,15 @@ public class MockUserRepository : IUserRepository
 
     public MockUserRepository()
     {
-        var user = new User("batman", new Email("batman@wayne.com"), "10000.r6stlzhuNlA3g20HyeknQw==.A5UfPjceorQcKyO/jJseWZUnzKtSshy7uDxVynwM2BI=", EType.Manager);
+        var user = new User("batman", new Email("batman@wayne.com"), new Password("Teste.31122022"), EType.Manager);
         user.UpdateActive(true);
         _users.Add(user);
 
-        user = new User("robin", new Email("robin@wayne.com"), "10000.FUta0a9lJFb+vlFzDimzhQ==.RFUZGI/wo0ASnhOP8x/GXWaWrZ6moHEQ2Ct7ZhrRTvE=", EType.Employee);
+        user = new User("robin", new Email("robin@wayne.com"), new Password("Teste.31122022"), EType.Employee);
         user.UpdateActive(true);
         _users.Add(user);
 
-        user = new User("superman", new Email("superman@justiceleague.com"), "10000.1s77HqQyilPTGkbp1kjVkA==.KW7WGqFVJwtYndyR93vjK0Vl13Ht6wzql1aAVYr3W38=", EType.Customer);
+        user = new User("superman", new Email("superman@justiceleague.com"), new Password("Teste.31122022"), EType.Customer);
         user.UpdateActive(true);
         _users.Add(user);
     }

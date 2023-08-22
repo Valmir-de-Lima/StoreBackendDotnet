@@ -1,0 +1,32 @@
+using Domain.Shared.ValueObjects;
+using SecureIdentity.Password;
+using Store.Domain.ValueObjects.Contracts;
+
+namespace Store.Domain.ValueObjects;
+public class Password : ValueObject
+{
+    public Password()
+    {
+
+    }
+    public Password(string password)
+    {
+        //Design by contracts
+        AddNotifications(
+            new CreatePasswordContract(password)
+        );
+
+        if (IsValid)
+            PasswordHash = PasswordHasher.Hash(password);
+    }
+
+    // É necessário o id do Usuario para o EF conectar Email -> User
+    public Guid UserId { get; private set; } = new Guid();
+
+    public string PasswordHash { get; private set; } = "";
+
+    public override string ToString()
+    {
+        return PasswordHash;
+    }
+}

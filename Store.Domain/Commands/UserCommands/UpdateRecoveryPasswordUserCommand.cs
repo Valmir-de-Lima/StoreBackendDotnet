@@ -15,8 +15,10 @@ public class UpdateRecoveryPasswordUserCommand : Command, ICommand
 
     public void Validate()
     {
+        var password = new Password(Password);
         AddNotifications(
-            new UpdateRecoveryPasswordUserContract(Id, Password, RecoveryPassword)
+            new UpdateRecoveryPasswordUserContract(Id, Password, RecoveryPassword),
+            password
         );
     }
 }

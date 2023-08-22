@@ -15,9 +15,11 @@ public class UpdatePasswordUserCommand : Command, ICommand
 
     public void Validate()
     {
+        var newPassword = new Password(NewPassword);
         AddNotifications(new UpdatePasswordUserContract(
             OldPassword,
             NewPassword
-        ));
+        ),
+        newPassword);
     }
 }

@@ -51,7 +51,7 @@ public class CreateUserHandler : Handler, IHandler<CreateUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        var passwordHash = PasswordHasher.Hash(command.Password);
+        var passwordHash = new Password(command.Password);
 
         // Build entity
         var user = new User(command.Name, email, passwordHash, EType.Customer);

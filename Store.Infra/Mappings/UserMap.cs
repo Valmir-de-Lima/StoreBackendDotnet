@@ -33,11 +33,14 @@ public class UserMap : IEntityTypeConfiguration<User>
         builder.OwnsOne(x => x.Email)
             .Ignore(x => x.Notifications);
 
-        builder.Property(x => x.PasswordHash)
-            .IsRequired()
-            .HasColumnName("PasswordHash")
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(255);
+        builder.OwnsOne(x => x.PasswordHash)
+           .Property(x => x.PasswordHash)
+           .HasColumnName("PasswordHash")
+           .IsRequired(true);
+
+        // É necessário ignorar a propriedade Notifications de Email para nao ser mapeada
+        builder.OwnsOne(x => x.PasswordHash)
+            .Ignore(x => x.Notifications);
 
         builder.Property(x => x.RecoveryPasswordHash)
             .IsRequired()

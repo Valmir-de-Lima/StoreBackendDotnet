@@ -11,7 +11,7 @@ public class User : Entity
     {
 
     }
-    public User(string name, Email email, string passwordHash, EType type)
+    public User(string name, Email email, Password passwordHash, EType type)
     {
         Name = name;
         Email = email;
@@ -24,13 +24,14 @@ public class User : Entity
         // Design by contracts
         AddNotifications(
             new CreateUserContract(this),
-            Email
+            Email,
+            PasswordHash
         );
     }
 
     public string Name { get; private set; } = "";
     public Email Email { get; private set; } = new("");
-    public string PasswordHash { get; private set; } = "";
+    public Password PasswordHash { get; private set; } = new("");
     public string RecoveryPasswordHash { get; private set; } = "";
     public string Link { get; private set; } = "";
     public EType Type { get; private set; }
@@ -38,6 +39,10 @@ public class User : Entity
     public DateTime LastLogin { get; private set; }
     public bool Active { get; private set; }
 
+    public string GetPasswordHash()
+    {
+        return PasswordHash.ToString();
+    }
 
     public void UpdateType(EType type)
     {
@@ -63,11 +68,11 @@ public class User : Entity
         );
     }
 
-    public void UpdatePassword(string passwordHash)
+    public void UpdatePassword(Password passwordHash)
     {
         PasswordHash = passwordHash;
         AddNotifications(
-            new CreateUserContract(this)
+            PasswordHash
         );
     }
     public void UpdateRecoveryPassword(string recoveryPasswordHash)

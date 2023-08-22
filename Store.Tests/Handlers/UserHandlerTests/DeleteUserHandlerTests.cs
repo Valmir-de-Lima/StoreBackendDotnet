@@ -8,9 +8,9 @@ public class DeleteUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman@wayne.com", "123456")]
-    [DataRow("robin@wayne.com", "123456")]
-    [DataRow("superman@justiceleague.com", "123456")]
+    [DataRow("batman@wayne.com", "Teste.31122022")]
+    [DataRow("robin@wayne.com", "Teste.31122022")]
+    [DataRow("superman@justiceleague.com", "Teste.31122022")]
     public async Task ShouldReturnTrueSuccessWhenEmailExists(string addres, string password)
     {
         var command = new DeleteUserCommand();
@@ -26,9 +26,9 @@ public class DeleteUserHandlersTests
 
     [TestMethod]
     [DataTestMethod]
-    [DataRow("batman@batman.com", "123456")]
-    [DataRow("robin@robin.com", "123456")]
-    [DataRow("superman@justice.com", "123456")]
+    [DataRow("batman@batman.com", "Teste.31122022")]
+    [DataRow("robin@robin.com", "Teste.31122022")]
+    [DataRow("superman@justice.com", "Teste.31122022")]
     public async Task ShouldReturnFalseSucessWhenEmailDontExists(string addres, string password)
     {
         var command = new DeleteUserCommand();
