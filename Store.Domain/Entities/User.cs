@@ -39,11 +39,6 @@ public class User : Entity
     public DateTime LastLogin { get; private set; }
     public bool Active { get; private set; }
 
-    public string GetPasswordHash()
-    {
-        return PasswordHash.ToString();
-    }
-
     public void UpdateType(EType type)
     {
         Type = type;
@@ -90,4 +85,15 @@ public class User : Entity
             new CreateUserContract(this)
         );
     }
+
+    public bool VerifyPassword(string providedPassword)
+    {
+        return PasswordHash.VerifyPassword(providedPassword);
+    }
+
+    public bool VerifyRecoveryPassword(string providedPassword)
+    {
+        return Password.VerifyPassword(RecoveryPasswordHash, providedPassword);
+    }
+
 }

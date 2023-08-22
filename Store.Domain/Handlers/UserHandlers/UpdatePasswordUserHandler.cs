@@ -46,7 +46,7 @@ public class UpdatePasswordUserHandler : Handler, IHandler<UpdatePasswordUserCom
             return new CommandResult(false, Notifications);
         }
 
-        if (!PasswordHasher.Verify(user.GetPasswordHash(), command.OldPassword))
+        if (!user.VerifyPassword(command.OldPassword))
         {
             AddNotification(command.OldPassword, "Usuario ou senha inválidos");
             return new CommandResult(false, Notifications);

@@ -48,7 +48,7 @@ public class LoginUserHandler : Handler, IHandler<LoginUserCommand>
             return new CommandResult(false, Notifications);
         }
 
-        if (!PasswordHasher.Verify(user.GetPasswordHash(), command.Password))
+        if (!user.VerifyPassword(command.Password))
         {
             AddNotification(command.Password, "Usuario ou senha inválidos");
             return new CommandResult(false, Notifications);

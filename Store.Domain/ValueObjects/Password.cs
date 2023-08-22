@@ -20,7 +20,7 @@ public class Password : ValueObject
             PasswordHash = PasswordHasher.Hash(password);
     }
 
-    // É necessário o id do Usuario para o EF conectar Email -> User
+    // É necessário o id do Usuario para o EF conectar Password -> User
     public Guid UserId { get; private set; } = new Guid();
 
     public string PasswordHash { get; private set; } = "";
@@ -28,5 +28,15 @@ public class Password : ValueObject
     public override string ToString()
     {
         return PasswordHash;
+    }
+
+    public bool VerifyPassword(string providedPassword)
+    {
+        return PasswordHasher.Verify(PasswordHash, providedPassword);
+    }
+
+    public static bool VerifyPassword(string passwordHash, string providedPassword)
+    {
+        return PasswordHasher.Verify(passwordHash, providedPassword);
     }
 }

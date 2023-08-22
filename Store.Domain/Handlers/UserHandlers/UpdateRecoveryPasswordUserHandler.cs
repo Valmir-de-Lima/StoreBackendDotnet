@@ -52,9 +52,9 @@ public class UpdateRecoveryPasswordUserHandler : Handler, IHandler<UpdateRecover
         }
 
         // Query recovery password
-        if (!PasswordHasher.Verify(user.RecoveryPasswordHash, command.RecoveryPassword.ToString()))
+        if (!user.VerifyRecoveryPassword(command.RecoveryPassword))
         {
-            AddNotification(command.RecoveryPassword.ToString(), "Código de autenticação inválido. É necessário repetir o processo.");
+            AddNotification(command.RecoveryPassword.ToString(), "Código de autenticação inválido. Repeta o processo de recuperação de senha.");
             user.UpdateRecoveryPassword("");
             _repository.Update(user);
             return new CommandResult(false, Notifications);
